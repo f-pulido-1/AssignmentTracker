@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 public class LoginActivity extends AppCompatActivity {
 
-    TextView txtSignUp;
+    TextView txtSignIn;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -18,9 +18,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        txtSignUp = findViewById(R.id.txtSignUp);
+        txtSignIn = findViewById(R.id.txtSignIn);
 
-        txtSignUp.setOnClickListener(new View.OnClickListener() {
+        txtSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
@@ -30,3 +30,5 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 }
+
+//txtSignUp
