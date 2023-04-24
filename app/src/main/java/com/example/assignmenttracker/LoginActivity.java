@@ -30,5 +30,3 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 }
-
-//txtSignUp
