@@ -6,40 +6,44 @@
     android:layout_height="match_parent">
 
 
+    <!--    THIS TEXT VIEW SHOULD HOLD THE VALUE OF USERNAME-->
+
+    <Button
+        android:id="@+id/landingLogOutButton"
+        android:layout_width="120dp"
+        android:layout_height="58dp"
+        android:gravity="center"
+        android:paddingBottom="20dp"
+        android:text="Log Out"
+        android:visibility="invisible"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="275dp"
+        tools:layout_editor_absoluteY="16dp"
+        tools:visibility="visible" />
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="410dp"
         android:layout_height="250dp"
         android:paddingTop="30dp"
         android:src="@drawable/cortana"
-        tools:ignore="MissingConstraints" />
-
-<!--    THIS TEXT VIEW SHOULD HOLD THE VALUE OF USERNAME-->
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welcome {INSERT_NAME_HERE}\nWhat can I help you with today"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="59dp" />
 
     <Button
-        android:id="@+id/mainLoginButton"
+        android:id="@+id/landingAddAssignmentBtn"
         android:layout_width="175dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="320dp"
         android:text="Add Assignment"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.46" />
+        app:layout_constraintTop_toBottomOf="@+id/landingMessage"
+        app:layout_constraintVertical_bias="0.121" />
 
     <Button
-        android:id="@+id/mainSignUpButton"
+        android:id="@+id/landingEnterGradeBtn"
         android:layout_width="175dp"
         android:layout_height="60dp"
         android:layout_marginBottom="192dp"
@@ -47,9 +51,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainLoginButton"
-        app:layout_constraintVertical_bias="0.574" />
+        app:layout_constraintTop_toBottomOf="@+id/landingAddAssignmentBtn"
+        app:layout_constraintVertical_bias="1.0" />
 
+    <TextView
+        android:id="@+id/landingMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Welcome {INSERT_NAME_HERE}\nWhat can I help you with today"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
