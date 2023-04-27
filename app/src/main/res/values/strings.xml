@@ -4,4 +4,9 @@
     <string name="assignment_tracker">Assignment Tracker</string>
     <string name="log_in">Log In</string>
     <string name="full_name">Full Name</string>
+    <string name="nothing_in_tracker_message">Nothing in tracker yet</string>
+    <string name="submit">Submit</string>
+    <string name="enter_score">Enter Score</string>
+    <string name="enter_assignment">Enter Assignment</string>
+    <string name="log_out">Log Out</string>
 </resources>
