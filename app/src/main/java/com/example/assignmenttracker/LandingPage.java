@@ -101,6 +101,7 @@ public class LandingPage extends AppCompatActivity {
             for(AssignmentTracker tracker : assignmentTrackerList) {
                 sb.append(tracker.toString());
             }
+            mainDisplay.setText(sb.toString());
         } else {
             mainDisplay.setText(R.string.nothing_in_tracker_message);
         }
