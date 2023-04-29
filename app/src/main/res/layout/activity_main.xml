@@ -9,7 +9,7 @@
     <ImageView
         android:layout_width="410dp"
         android:layout_height="250dp"
-        android:src="@drawable/header"
+        android:src="@drawable/agenda_title"
         android:layout_marginTop="20dp"
         tools:ignore="MissingConstraints" />
 
