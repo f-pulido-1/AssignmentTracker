@@ -1,25 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <!--    THIS TEXT VIEW SHOULD HOLD THE VALUE OF USERNAME-->
-
-<!--    <Button-->
-<!--        android:id="@+id/landingLogOutButton"-->
-<!--        android:layout_width="120dp"-->
-<!--        android:layout_height="58dp"-->
-<!--        android:gravity="center"-->
-<!--        android:paddingBottom="20dp"-->
-<!--        android:text="Log Out"-->
-<!--        android:visibility="invisible"-->
-<!--        tools:ignore="MissingConstraints"-->
-<!--        tools:layout_editor_absoluteX="275dp"-->
-<!--        tools:layout_editor_absoluteY="16dp"-->
-<!--        tools:visibility="visible" />-->
 
     <Button
         android:id="@+id/landingLogOutButton"
@@ -28,10 +14,10 @@
         android:gravity="center"
 
         android:text="Log Out"
-
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="11dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp" />
 
 
     <ImageView
@@ -40,68 +26,69 @@
         android:layout_height="250dp"
         android:paddingTop="30dp"
         android:src="@drawable/cortana"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="42dp" />
-
-    <TextView
-        android:id="@+id/landingMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Welcome {INSERT_NAME_HERE}\nWhat can I help you with today"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintTop_toBottomOf="@+id/backButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
     <EditText
         android:id="@+id/mainAssignmentEditText"
-        android:layout_width="271dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
-        android:text="@string/enter_assignment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.578"
+        android:hint="@string/enter_assignment"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainAssignmentTrackerDisplay"
-        app:layout_constraintVertical_bias="0.214" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.25" />
 
     <EditText
         android:id="@+id/mainScoreEditText"
-        android:layout_width="268dp"
+        android:layout_width="0dp"
         android:layout_height="41dp"
-        android:text="@string/enter_score"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
-        app:layout_constraintStart_toStartOf="parent"
+        android:hint="@string/enter_score"
         app:layout_constraintTop_toBottomOf="@+id/mainAssignmentEditText"
-        app:layout_constraintVertical_bias="0.248" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.15" />
+
 
     <Button
         android:id="@+id/mainSubmitButton"
-        android:layout_width="120dp"
-        android:layout_height="58dp"
+        android:layout_width="0dp"
+        android:layout_height="34dp"
         android:text="@string/submit"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.532"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mainScoreEditText"
-        app:layout_constraintVertical_bias="0.891" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.25" />
 
     <TextView
-        android:id="@+id/mainAssignmentTrackerDisplay"
-        android:layout_width="150dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="68dp"
-        android:text="Assignment goes here"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/landingMessage"
+        android:layout_width="0dp"
+        android:layout_height="17dp"
+        android:textAlignment="center"
+        android:text="@string/welcome"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/landingMessage" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.1" />
 
+    <ScrollView
+        android:layout_width="377dp"
+        android:layout_height="103dp"
+        app:layout_constraintTop_toBottomOf="@+id/mainSubmitButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/mainAssignmentTrackerDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Assignment goes here" />
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

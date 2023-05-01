@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="edtSignInUsername" type="id" />
+    <item name="edtSignInPassword" type="id" />
+    <item name="signInProgressBar" type="id" />
+    <item name="btnSignIn" type="id" />
+    <item name="txtSignIn" type="id" />
+</resources>
