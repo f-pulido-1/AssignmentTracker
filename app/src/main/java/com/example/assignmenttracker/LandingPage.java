@@ -1,9 +1,10 @@
 package com.example.assignmenttracker;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,55 +17,40 @@ import com.example.assignmenttracker.DB.AppDataBase;
 import com.example.assignmenttracker.DB.AssignmentTrackerDAO;
 import com.example.assignmenttracker.databinding.LandingPageBinding;
 
+
 import java.util.List;
 
 public class LandingPage extends AppCompatActivity {
-
-    // C's Fields
-    private Button backButton;
-    // private Button landingAddAssignmentBtn; -- we switched it to a edit text
-    // private Button landingEnterGradeBtn; -- we switched to edit text
-    private TextView landingMessage;
-    private ImageView imageView;
-
-    // F's Fields
+    // Fields
     LandingPageBinding binding;
-
     TextView mainDisplay;
     EditText assignment;
     EditText score;
     Button submit;
     AssignmentTrackerDAO assignmentTrackerDAO;
-
     List<AssignmentTracker> assignmentTrackerList;
 
-
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.landing_page);
-
-        backButton = findViewById(R.id.backButton);
-        // landingAddAssignmentBtn = findViewById(R.id.landingAddAssignmentBtn);
-        // landingEnterGradeBtn = findViewById(R.id.landingEnterGradeBtn);
-        landingMessage = findViewById(R.id.landingMessage);
-        imageView = findViewById(R.id.imageView);
-
-        String username = getIntent().getStringExtra("username");
-        landingMessage.setText("Welcome, " + username + "!");
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
 
         binding = LandingPageBinding.inflate(getLayoutInflater());
+        setContentView(R.layout.landing_page);
+
+        Button backButton = findViewById(R.id.backButton);
+        ImageView imageView = findViewById(R.id.imageView);
+        TextView landingMessage = (TextView) findViewById(R.id.landingMessage);
+
+        String username = getIntent().getStringExtra("username");
+        Log.d("USERNAME", "The username IS: " + username);
+        binding.landingMessage.setText("Hello, " + username);
+
+        backButton.setOnClickListener(view -> finish());
+
         setContentView(binding.getRoot());
 
-        // binding
+        // Binding
         mainDisplay = binding.mainAssignmentTrackerDisplay;
         assignment = binding.mainAssignmentEditText;
         score = binding.mainScoreEditText;
@@ -77,14 +63,11 @@ public class LandingPage extends AppCompatActivity {
 
         refreshDisplay();
 
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                submitAssignmentTracker();
-                refreshDisplay();
-            }
+        submit.setOnClickListener(view -> {
+            submitAssignmentTracker();
+            refreshDisplay();
         });
-    } // end of onCreate
+    } // End of onCreate
 
     private void submitAssignmentTracker() {
         String assignment1 = assignment.getText().toString();
