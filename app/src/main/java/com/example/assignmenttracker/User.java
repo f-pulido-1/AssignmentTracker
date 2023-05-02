@@ -2,18 +2,22 @@ package com.example.assignmenttracker;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
 import com.example.assignmenttracker.DB.AppDataBase;
-
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Carlos Santiago, Fernando A. Pulido
+ * @since April 29, 2023
+ * Description: Represents a user of the app.
+ */
+
 @Entity(tableName = AppDataBase.USER_TABLE)
 public class User {
-    @PrimaryKey(autoGenerate = true)
-    private int userId;
-
     // Fields
+    @PrimaryKey(autoGenerate = true)
+    private int userId; // Primary key of the table
+
     private String username;
     private String password;
     private boolean isAdmin;
@@ -26,13 +30,14 @@ public class User {
     }
 
     // Predefined users
+    // returns a list of two predefined User objects.
+    // It also is used to initialize the user database.
     public static List<User> getPredefinedUsers() {
         List<User> userList = new ArrayList<>();
         userList.add(new User("testUser1", "password1", true));
         userList.add(new User("testUser2", "password2", false));
         return userList;
     }
-
 
     // Getters & Setters
     public int getUserId() {

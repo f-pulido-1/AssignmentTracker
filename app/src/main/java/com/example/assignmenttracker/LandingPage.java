@@ -5,20 +5,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.EditText;
-
 import androidx.room.Room;
-
 import com.example.assignmenttracker.DB.AppDataBase;
 import com.example.assignmenttracker.DB.AssignmentTrackerDAO;
 import com.example.assignmenttracker.databinding.LandingPageBinding;
-
-
 import java.util.List;
+
+/**
+ * @author Carlos Santiago, Fernando A. Pulido
+ * @since April 23, 2023
+ * Description: Android activity class that represents the landing page of an Assignment Tracker app.
+ */
 
 public class LandingPage extends AppCompatActivity {
     // Fields
@@ -32,21 +33,21 @@ public class LandingPage extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) { // called when the activity is created
         super.onCreate(savedInstanceState);
 
+        // LandingPageBinding class is used to inflate the layout of the landing page
         binding = LandingPageBinding.inflate(getLayoutInflater());
         setContentView(R.layout.landing_page);
 
-        Button backButton = findViewById(R.id.backButton);
+//        Button backButton = findViewById(R.id.backButton);
         ImageView imageView = findViewById(R.id.imageView);
         TextView landingMessage = (TextView) findViewById(R.id.landingMessage);
 
         String username = getIntent().getStringExtra("username");
-        Log.d("USERNAME", "The username IS: " + username);
         binding.landingMessage.setText("Hello, " + username);
 
-        backButton.setOnClickListener(view -> finish());
+//        backButton.setOnClickListener(view -> finish());
 
         setContentView(binding.getRoot());
 
@@ -69,6 +70,8 @@ public class LandingPage extends AppCompatActivity {
         });
     } // End of onCreate
 
+    // When a user clicks the submit button, the method creates a new Assignment Tracker object and
+    // inserts it into the database using the assignmentTrackerDAO object.
     private void submitAssignmentTracker() {
         String assignment1 = assignment.getText().toString();
         double score2 = Double.parseDouble(score.getText().toString());
@@ -77,6 +80,7 @@ public class LandingPage extends AppCompatActivity {
         assignmentTrackerDAO.insert(tracker);
     }
 
+    // Used to display the current contents of the database in the mainDisplay field of the landing page.
     private void refreshDisplay() {
         assignmentTrackerList = assignmentTrackerDAO.getAssignmentTrackers();
         if(!assignmentTrackerList.isEmpty()) {
