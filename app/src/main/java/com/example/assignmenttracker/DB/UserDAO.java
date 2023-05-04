@@ -32,6 +32,10 @@ public interface UserDAO {
     List<User> getUsers(); // returns list of all User objects in the database
 
     @Query("SELECT * FROM " + AppDataBase.USER_TABLE + " WHERE userId = :userId")
-    List<User> getUserById(int userId); // takes an integer parameter and returns a list of all
+    User getUserById(int userId); // takes an integer parameter and returns a list of all
                                             // User objects with a matching userId field
+    @Query("SELECT * FROM " + AppDataBase.USER_TABLE + " WHERE username = :username")
+    User getUserByUsername(String username); // takes an integer parameter and returns a list of all
+    // User objects with a matching userId field
+
 }
