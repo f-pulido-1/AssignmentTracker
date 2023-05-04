@@ -27,7 +27,7 @@ public abstract class AppDataBase extends RoomDatabase {
     // Methods - Used to define the DAO for the entities. It provides methods
     // for accessing and manipulating the entities.
     public abstract AssignmentTrackerDAO AssignmentTrackerDAO();
-    public abstract UserDAO UserDAO();
+//    public abstract UserDAO UserDAO();
     // getInstance is used to get the instance of the AppDataBase class. Follows singleton pattern to
     // ensure that only one instance of the database is created throughout lifetime of app.
     public static AppDataBase getInstance(Context context) {

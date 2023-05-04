@@ -1,127 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none"
-    android:background="@color/white"
     tools:context=".LoginActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+
+    <EditText
+        android:id="@+id/editTextLoginPassword"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="22dp"
-        android:orientation="vertical">
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextLoginUsername" />
 
-        <!--        Can add custom fonts later on EX:   android:fontFamily="@font/gvtime"-->
+    <EditText
+        android:id="@+id/editTextLoginUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="112dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Username"
+        android:textColor="@color/black"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login"
+        android:backgroundTint="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextLoginPassword"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <LinearLayout
+        android:layout_width="214dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="48dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogin"
+        app:layout_constraintVertical_bias="0.0">
+
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/textViewSignInMessage"
+            android:layout_width="99dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="Log In"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="50sp"/>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Don't have an account?"
+            android:textColor="@color/black" />
 
-<!--        Username-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/edtSignInUsername"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textViewSignIn"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="@string/username"
-            android:layout_marginTop="36dp"
-            android:textColorHint="@color/black"
-            app:boxStrokeColor="@color/black">
-            <!--            Can add font below as well before the color-->
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:inputType="text"
-                android:singleLine="true"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-<!--        Password-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/edtSignInPassword"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/password"
-            app:passwordToggleEnabled="true"
-            android:layout_marginTop="16dp"
-            android:textColorHint="@color/black"
-            app:boxStrokeColor="@color/black">
-            <!--            Can add font below as well before the color-->
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:inputType="text"
-                android:singleLine="true"/>
-
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-<!--        Sign in button-->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp">
-
-            <ProgressBar
-                android:id="@+id/signInProgressBar"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_horizontal"
-                android:visibility="invisible"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSignIn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
-                android:paddingStart="20dp"
-                android:paddingTop="20dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="20dp"
-                android:text="@string/sign_in"
-                app:cornerRadius="10dp"/>
-
-        </FrameLayout>
-
-<!--        No account? -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="32dp"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/don_t_have_an_account"
-                android:textColor="@color/black"
-                android:textSize="18sp"/>
-
-            <TextView
-                android:id="@+id/txtSignIn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sign Up"
-                android:textColor="@color/teal_700"
-                android:layout_marginStart="10dp"
-                android:textSize="18sp"/>
-
-        </LinearLayout>
-
-
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Sign Up"
+            android:textColor="@color/teal_700" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textViewLogInTitle"
+        android:layout_width="176dp"
+        android:layout_height="67dp"
+        android:gravity="center"
+        android:text="Log In"
+        android:textColor="@color/black"
+        android:textSize="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextLoginUsername"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

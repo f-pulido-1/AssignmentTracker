@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "c00c89fcdf060ca8d0f14a95987d8ad8",
+    "identityHash": "eb7362c45a6c44c9536cc0ab84771ee0",
     "entities": [
       {
         "tableName": "user_table",
@@ -44,7 +44,7 @@
       },
       {
         "tableName": "assignmenttracker_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`trackerId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `assignment` TEXT, `score` REAL NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`trackerId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `assignment` TEXT, `score` REAL NOT NULL, `userId` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "trackerId",
@@ -63,6 +63,12 @@
             "columnName": "score",
             "affinity": "REAL",
             "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -78,7 +84,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c00c89fcdf060ca8d0f14a95987d8ad8')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'eb7362c45a6c44c9536cc0ab84771ee0')"
     ]
   }
 }
