@@ -1,9 +1,11 @@
 package com.example.assignmenttracker;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     AssignmentTrackerDAO assignmentTrackerDAO;
     List<AssignmentTracker> assignmentTrackerList;
     private int userId = -1;
+    private SharedPreferences preferences = null;
+    private Button buttonLogout;
 
 
     public static Intent intentFactory(Context context, int userId) {
@@ -63,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         assignment = binding.mainAssignmentEditText;
         score = binding.mainScoreEditText;
         submit = binding.mainSubmitButton;
+        buttonLogout = binding.buttonLogout;
 
         refreshDisplay();
 
@@ -72,6 +77,10 @@ public class MainActivity extends AppCompatActivity {
                 submitAssignmentTracker();
                 refreshDisplay();
             }
+        });
+
+        buttonLogout.setOnClickListener(view -> {
+            logoutUser();
         });
 }
 
@@ -83,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refreshDisplay() {
-        assignmentTrackerList = assignmentTrackerDAO.getAssignmentTrackers();
+        assignmentTrackerList = assignmentTrackerDAO.getTrackersByUserId(userId);
         if(!assignmentTrackerList.isEmpty()) {
             StringBuilder sb = new StringBuilder();
             for(AssignmentTracker tracker : assignmentTrackerList) {
@@ -139,5 +148,47 @@ public class MainActivity extends AppCompatActivity {
                 .allowMainThreadQueries()
                 .build()
                 .AssignmentTrackerDAO();
+    }
+
+    private void logoutUser() {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+
+        alertBuilder.setMessage("logout");
+
+        alertBuilder.setPositiveButton(getString(R.string.yes),
+                (dialog, which) -> {
+                    clearUserFromIntent();
+                    clearUserFromPref();
+                    userId=-1;
+                    checkForUser();
+                });
+        alertBuilder.setNegativeButton(getString(R.string.no),
+                (dialog, which) -> {
+                    //We don't really need to do anything here.
+
+                });
+
+        alertBuilder.create().show();
+    }
+
+    private void clearUserFromPref() {
+        getIntent().putExtra(USER_ID_KEY, -1);
+    }
+
+    private void clearUserFromIntent() {
+        addUserToPreference(-1);
+    }
+
+    private void addUserToPreference(int userId) {
+        if (preferences == null) {
+            getPrefs();
+        }
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(USER_ID_KEY, userId);
+        editor.apply();
+    }
+
+    private void getPrefs() {
+        preferences = this.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE);
     }
 }

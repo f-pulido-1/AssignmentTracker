@@ -93,7 +93,6 @@ public class LoginActivity extends AppCompatActivity {
     private String password;
     private User user;
     private TextView txtSignIn;
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
