@@ -21,9 +21,13 @@ public class User {
     private String username;
     private String password;
     private boolean isAdmin;
+    private String firstName;
+    private String lastName;
 
     // Constructor(s)
-    public User(String username, String password, boolean isAdmin) {
+    public User(String firstName, String lastName, String username, String password, boolean isAdmin) {
+        this.firstName =  firstName;
+        this.lastName = lastName;
         this.username = username;
         this.password = password;
         this.isAdmin = isAdmin;
@@ -34,8 +38,8 @@ public class User {
     // It also is used to initialize the user database.
     public static List<User> getPredefinedUsers() {
         List<User> userList = new ArrayList<>();
-        userList.add(new User("testUser1", "password1", true));
-        userList.add(new User("testUser2", "password2", false));
+        userList.add(new User("user1", "lastnameUser1", "testUser1", "password1", true));
+        userList.add(new User("user2", "lastnameUser2", "testUser2", "password2", false));
         return userList;
     }
 
@@ -70,6 +74,22 @@ public class User {
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     // Other
