@@ -125,8 +125,8 @@ public class MainActivity extends AppCompatActivity {
         if (userId == -1) {
             List<User> users = assignmentTrackerDAO.getAllUsers();
             if (users.size() <= 0) {
-                User defaultUser = new User("testuser1", "testuser1", false);
-                User altUser = new User("admin2", "admin2", true);
+                User defaultUser = new User("Mike", "Wazowski", "testuser1", "testuser1", false);
+                User altUser = new User("James", "Sullivan", "admin2", "admin2",true);
                 assignmentTrackerDAO.insert(defaultUser, altUser);
                 userId = defaultUser.getUserId(); // Set the user ID to the ID of the newly inserted user
             } else {

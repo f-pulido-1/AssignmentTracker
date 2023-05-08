@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.assignmenttracker.DB.AppDataBase;
-import com.example.assignmenttracker.DB.UserDAO;
+import com.example.assignmenttracker.DB.AssignmentTrackerDAO;
 
 /**
  * @author Carlos Santiago, Fernando A. Pulido
@@ -30,7 +30,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText password;
     EditText passwordConfirm;
 
-    UserDAO userDao;
+    AssignmentTrackerDAO assignmentTrackerDAO;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -63,13 +63,13 @@ public class SignUpActivity extends AppCompatActivity {
                 String passwordValue = password.getText().toString();
                 String passwordConfirmValue = passwordConfirm.getText().toString();
 
-                User checkUser = userDao.getUserByUsername(usernameValue);
+                User checkUser = assignmentTrackerDAO.getUserByUsername(usernameValue);
 
                 if(checkUser != null){
                     Toast.makeText(getApplicationContext(), "Username already taken", Toast.LENGTH_SHORT).show();
                 }else{
                     User newUser = new User(firstNameValue, lastNameValue, usernameValue, passwordValue, false);
-                    userDao.insert(newUser);
+                    assignmentTrackerDAO.insert(newUser);
 
                     Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                     startActivity(intent); // Actually starts the activity
@@ -81,9 +81,9 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void getDatabase(){
-        userDao = Room.databaseBuilder(this, AppDataBase.class, AppDataBase.DATABASE_NAME)
+        assignmentTrackerDAO = Room.databaseBuilder(this, AppDataBase.class, AppDataBase.DATABASE_NAME)
                 .allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
-                .build().UserDAO();
+                .build().AssignmentTrackerDAO();
     }
 }
