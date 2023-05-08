@@ -6,6 +6,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 import com.example.assignmenttracker.AssignmentTracker;
+import com.example.assignmenttracker.User;
+
 import java.util.List;
 
 /**
@@ -36,4 +38,24 @@ public interface AssignmentTrackerDAO {
     List<AssignmentTracker> getTrackerById(int trackerId); // takes integer parameter and returns
                                                             // list of AssignmentTracker objects
                                                             // with matching trackerId field.
+    @Query("SELECT * FROM " + AppDataBase.ASSIGNMENTTRACKER_TABLE + " WHERE userId = :userId")
+    List<AssignmentTracker> getTrackersByUserId(int userId);
+    @Insert
+    void insert(User... users);
+
+    @Update
+    void update(User...users);
+
+    @Delete
+    void delete(User user);
+
+    // Custom methods using the @Query annotation
+    @Query("SELECT * FROM " + AppDataBase.USER_TABLE)
+    List<User> getAllUsers();
+
+    @Query("SELECT * FROM " + AppDataBase.USER_TABLE + " WHERE userId = :userId")
+    User getUserByUserId(int userId);
+
+    @Query("SELECT * FROM " + AppDataBase.USER_TABLE + " WHERE username = :username")
+    User getUserByUsername(String username);
 }

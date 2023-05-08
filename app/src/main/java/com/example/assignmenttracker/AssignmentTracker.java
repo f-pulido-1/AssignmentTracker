@@ -20,12 +20,14 @@ public class AssignmentTracker {
 
     private String assignment;
     private double score;
+    private int userId;
 
 
     // Constructor(s)
-    public AssignmentTracker(String assignment, double score) {
+    public AssignmentTracker(String assignment, double score, int userId) {
         this.assignment = assignment;
         this.score = score;
+        this.userId = userId;
     }
 
     // Getters & Setters
@@ -53,13 +55,21 @@ public class AssignmentTracker {
         this.trackerId = trackerId;
     }
 
-    // Other
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "AssignmentTracker{" +
                 "trackerId=" + trackerId +
                 ", assignment='" + assignment + '\'' +
                 ", score=" + score +
+                ", userId=" + userId +
                 '}';
     }
 }

@@ -39,3 +39,4 @@ public interface UserDAO {
     // User objects with a matching userId field
 
 }
+
