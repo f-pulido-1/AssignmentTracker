@@ -95,11 +95,15 @@ public class User {
     // Other
     @Override
     public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", isAdmin=" + isAdmin +
-                '}';
+//        return "User{" +
+//                "userId=" + userId +
+//                ", username='" + username + '\'' +
+//                ", password='" + password + '\'' +
+//                ", isAdmin=" + isAdmin +
+//                '}';
+        return "User#" + userId + ": " + username +
+                "\nFirst Name: "  + firstName +
+                "\nLast Name: " + lastName +
+                "\nisAdmin: " + isAdmin + "\n\n";
     }
 }

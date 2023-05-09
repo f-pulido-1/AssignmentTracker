@@ -24,21 +24,21 @@ import java.util.List;
 /**
  * @author Carlos Santiago, Fernando A. Pulido
  * @since April 23, 2023
- * Description: Android activity that allows users to navigate to either the login or sign up page.
+ * Description: Android activity class that implements a user landing page.
  */
 
 public class MainActivity extends AppCompatActivity {
     // Fields
     private static final String USER_ID_KEY = "com.example.assignmenttracker.userIdKey";
     private static final String PREFERENCES_KEY = "com.example.assignmenttracker.PREFERENCES_KEY";
-
-    ActivityMainBinding binding;
-    TextView mainDisplay;
-    EditText assignment;
-    EditText score;
-    Button submit;
-    AssignmentTrackerDAO assignmentTrackerDAO;
-    List<AssignmentTracker> assignmentTrackerList;
+    private ActivityMainBinding binding;
+    private TextView mainDisplay;
+    private EditText assignment;
+    private EditText score;
+    private Button submit;
+    private TextView mainWelcomeMessage;
+    private AssignmentTrackerDAO assignmentTrackerDAO;
+    private List<AssignmentTracker> assignmentTrackerList;
     private int userId = -1;
     private SharedPreferences preferences = null;
     private Button buttonLogout;
@@ -68,21 +68,28 @@ public class MainActivity extends AppCompatActivity {
         score = binding.mainScoreEditText;
         submit = binding.mainSubmitButton;
         buttonLogout = binding.buttonLogout;
+        mainWelcomeMessage = binding.mainWelcomeMessage;
+
+        displayWelcomeMessage();
 
         refreshDisplay();
 
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                submitAssignmentTracker();
-                refreshDisplay();
-            }
+        submit.setOnClickListener(view -> {
+            submitAssignmentTracker();
+            refreshDisplay();
         });
 
         buttonLogout.setOnClickListener(view -> {
             logoutUser();
         });
 }
+
+    private void displayWelcomeMessage() {
+        User user = assignmentTrackerDAO.getUserByUserId(userId);
+        String firstName = user.getFirstName();
+        String lastName = user.getLastName();
+        mainWelcomeMessage.setText("Hello, " + firstName + " " + lastName + "!");
+    }
 
     private void submitAssignmentTracker() {
         String assignmentText = assignment.getText().toString();
@@ -153,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
     private void logoutUser() {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
 
-        alertBuilder.setMessage("logout");
+        alertBuilder.setMessage("Logout");
 
         alertBuilder.setPositiveButton(getString(R.string.yes),
                 (dialog, which) -> {
@@ -165,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
         alertBuilder.setNegativeButton(getString(R.string.no),
                 (dialog, which) -> {
                     //We don't really need to do anything here.
-
                 });
 
         alertBuilder.create().show();
