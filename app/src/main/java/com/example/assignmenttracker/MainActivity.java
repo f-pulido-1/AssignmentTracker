@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d("MainActivity", "onCreateOptionsMenu CALLED SUCCESSFULLY");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
-
         return true;
     }
 
@@ -106,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.item1:
                 Toast.makeText(this, "Item 1 Selected", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
+                intent.putExtra(USER_ID_KEY, userId);
+                startActivity(intent);
                 return true;
             case R.id.item2:
                 Toast.makeText(this, "Item 2 Selected", Toast.LENGTH_SHORT).show();
@@ -186,8 +188,8 @@ public class MainActivity extends AppCompatActivity {
 //        }
         List<User> users = assignmentTrackerDAO.getAllUsers();
         if (users.size() <= 0) {
-            User defaultUser = new User("Mike", "Wazowski", "testuser1", "testuser1", false);
-            User altUser = new User("James", "Sullivan", "admin2", "admin2", true);
+            User defaultUser = new User(userId,"Mike", "Wazowski", "testuser1", "testuser1", false);
+            User altUser = new User(userId,"James", "Sullivan", "admin2", "admin2", true);
             assignmentTrackerDAO.insert(defaultUser, altUser);
         }
         Intent intent = LoginActivity.intentFactory(this);

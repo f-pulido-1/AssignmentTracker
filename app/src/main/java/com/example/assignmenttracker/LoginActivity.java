@@ -15,11 +15,6 @@ import android.widget.Toast;
 
 import com.example.assignmenttracker.DB.AppDataBase;
 import com.example.assignmenttracker.DB.AssignmentTrackerDAO;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Carlos Santiago, Fernando A. Pulido
@@ -30,6 +25,7 @@ import java.util.Objects;
 public class LoginActivity extends AppCompatActivity {
 
     // Fields
+    private static final String USER_ID_KEY = "com.example.assignmenttracker.userIdKey";
      EditText usernameField;
      EditText passwordField;
      Button button;
@@ -51,10 +47,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void wireUpDisplay() {
         Log.d("LoginActivity", "wireUpDisplay CALLED SUCCESSFULLY");
-        usernameField = findViewById(R.id.editTextLoginUsername);
-        passwordField = findViewById(R.id.editTextLoginPassword);
-        button = findViewById(R.id.buttonLogin);
-        txtSignIn = findViewById(R.id.textViewSignIn);
+        usernameField = findViewById(R.id.editTextSignUpUsername);
+        passwordField = findViewById(R.id.editTextSignUpPassword);
+        button = findViewById(R.id.buttonSignUp);
+        txtSignIn = findViewById(R.id.textViewLogIn);
 
         button.setOnClickListener(v -> {
             getValuesFromDisplay();
@@ -78,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         txtSignIn.setOnClickListener(view -> {
             Log.d("LoginActivity", "txtSignIn buttonClicked");
             Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+            intent.putExtra(USER_ID_KEY, user.getUserId());
             startActivity(intent);
         });
     }
@@ -92,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
         user = assignmentTrackerDAO.getUserByUsername(username);
         Log.d("LoginActivity", "checkForUserInDatabase user = " + user);
         if (user != null) {
-            Toast.makeText(this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
             return true; // Is this the bug?
         }
         Log.d("LoginActivity", "checkForUserInDatabase FOUND NULL USER");

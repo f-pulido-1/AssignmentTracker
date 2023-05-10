@@ -63,7 +63,7 @@ public class StudentViewerActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.d("AdminMainActivity", "onCreateOptionsMenu CALLED SUCCESSFULLY");
+        Log.d("StudentViewerActivity", "onCreateOptionsMenu CALLED SUCCESSFULLY");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
 
@@ -72,7 +72,7 @@ public class StudentViewerActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Log.d("AdminMainActivity", "onOptionsItemSelected CALLED SUCCESSFULLY");
+        Log.d("StudentViewerActivity", "onOptionsItemSelected CALLED SUCCESSFULLY");
         switch(item.getItemId()) {
             case R.id.item1:
                 Toast.makeText(this, "Item 1 Selected", Toast.LENGTH_SHORT).show();
