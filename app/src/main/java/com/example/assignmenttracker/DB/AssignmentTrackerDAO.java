@@ -7,7 +7,6 @@ import androidx.room.Query;
 import androidx.room.Update;
 import com.example.assignmenttracker.AssignmentTracker;
 import com.example.assignmenttracker.User;
-
 import java.util.List;
 
 /**
