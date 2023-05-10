@@ -1,5 +1,6 @@
 package com.example.assignmenttracker;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
@@ -8,8 +9,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.assignmenttracker.DB.AppDataBase;
 import com.example.assignmenttracker.DB.AssignmentTrackerDAO;
 import com.example.assignmenttracker.databinding.ActivityAdminMainBinding;
@@ -65,11 +71,35 @@ public class AdminMainActivity extends AppCompatActivity {
             Log.d("AdminMainActivity", "Username: " + adminUser.getUsername() + " First: " + adminUser.getFirstName());
             Intent intent = new Intent(AdminMainActivity.this, StudentViewerActivity.class);
             // TODO: fix error connected to StudentViewerActivity
-//            intent.putExtra("user", adminUser.getUserId());
+            intent.putExtra(USER_ID_KEY, userId);
             startActivity(intent);
         });
 
         buttonLogoutAdmin.setOnClickListener(view -> logoutUser());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.item1:
+                Toast.makeText(this, "Item 1 Selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.item2:
+                Toast.makeText(this, "Item 2 Selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.item3:
+                Toast.makeText(this, "Item 3 Selected", Toast.LENGTH_SHORT).show();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void getDatabase() {

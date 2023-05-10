@@ -1,5 +1,6 @@
 package com.example.assignmenttracker;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
@@ -10,10 +11,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.assignmenttracker.DB.AppDataBase;
 import com.example.assignmenttracker.DB.AssignmentTrackerDAO;
@@ -42,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
     private int userId = -1;
     private SharedPreferences preferences = null;
     private Button buttonLogout;
+    User user;
+    String firstName;
+    String lastName;
 
 
     public static Intent intentFactory(Context context, int userId) {
@@ -83,15 +91,44 @@ public class MainActivity extends AppCompatActivity {
             logoutUser();
         });
 }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d("MainActivity", "onCreateOptionsMenu CALLED SUCCESSFULLY");
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Log.d("MainActivity", "onOptionsItemSelected CALLED SUCCESSFULLY");
+        switch(item.getItemId()) {
+            case R.id.item1:
+                Toast.makeText(this, "Item 1 Selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.item2:
+                Toast.makeText(this, "Item 2 Selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.item3:
+                Toast.makeText(this, "Item 3 Selected", Toast.LENGTH_SHORT).show();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private void displayWelcomeMessage() {
-        User user = assignmentTrackerDAO.getUserByUserId(userId);
-        String firstName = user.getFirstName();
-        String lastName = user.getLastName();
-        mainWelcomeMessage.setText("Hello, " + firstName + " " + lastName + "!");
+        Log.d("MainActivity", "displayWelcomeMessage CALLED SUCCESSFULLY");
+        user = assignmentTrackerDAO.getUserByUserId(userId);
+        if (user != null) {
+            firstName = user.getFirstName();
+            lastName = user.getLastName();
+            mainWelcomeMessage.setText("Hello, " + firstName + " " + lastName + "!");
+        }
     }
 
     private void submitAssignmentTracker() {
+        Log.d("MainActivity", "submitAssignmentTracker CALLED SUCCESSFULLY");
         String assignmentText = assignment.getText().toString();
         double scoreValue = Double.parseDouble(score.getText().toString());
         AssignmentTracker tracker = new AssignmentTracker(assignmentText, scoreValue, userId);
@@ -99,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refreshDisplay() {
+        Log.d("MainActivity", "refreshDisplay CALLED SUCCESSFULLY");
         assignmentTrackerList = assignmentTrackerDAO.getTrackersByUserId(userId);
         if(!assignmentTrackerList.isEmpty()) {
             StringBuilder sb = new StringBuilder();
@@ -112,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkForUser() {
+        Log.d("MainActivity", "checkForUser CALLED SUCCESSFULLY");
         // Do we have a user in the intent?
         userId = getIntent().getIntExtra(USER_ID_KEY, -1);
 
@@ -129,22 +168,28 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Do we have any users at all?
-        if (userId == -1) {
-            List<User> users = assignmentTrackerDAO.getAllUsers();
-            if (users.size() <= 0) {
-                User defaultUser = new User("Mike", "Wazowski", "testuser1", "testuser1", false);
-                User altUser = new User("James", "Sullivan", "admin2", "admin2",true);
-                assignmentTrackerDAO.insert(defaultUser, altUser);
-                userId = defaultUser.getUserId(); // Set the user ID to the ID of the newly inserted user
-            } else {
-                userId = users.get(0).getUserId(); // Set the user ID to the ID of the first user in the database
-            }
-            // Store the user ID in the preferences
-            SharedPreferences.Editor editor = this.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE).edit();
-            editor.putInt(USER_ID_KEY, userId);
-            editor.apply();
+//        if (userId == -1) {
+//            List<User> users = assignmentTrackerDAO.getAllUsers();
+//            if (users.size() <= 0) {
+//                User defaultUser = new User("Mike", "Wazowski", "testuser1", "testuser1", false);
+//                User altUser = new User("James", "Sullivan", "admin2", "admin2",true);
+//                assignmentTrackerDAO.insert(defaultUser, altUser);
+////                userId = defaultUser.getUserId(); // Set the user ID to the ID of the newly inserted user
+//            }
+//            else {
+//                userId = users.get(0).getUserId(); // Set the user ID to the ID of the first user in the database
+//            }
+//            // Store the user ID in the preferences
+//            SharedPreferences.Editor editor = this.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE).edit();
+//            editor.putInt(USER_ID_KEY, userId);
+//            editor.apply();
+//        }
+        List<User> users = assignmentTrackerDAO.getAllUsers();
+        if (users.size() <= 0) {
+            User defaultUser = new User("Mike", "Wazowski", "testuser1", "testuser1", false);
+            User altUser = new User("James", "Sullivan", "admin2", "admin2", true);
+            assignmentTrackerDAO.insert(defaultUser, altUser);
         }
-
         Intent intent = LoginActivity.intentFactory(this);
         startActivity(intent);
     }
@@ -158,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logoutUser() {
+        Log.d("MainActivity", "logoutUser CALLED SUCCESSFULLY");
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
 
         alertBuilder.setMessage("Logout");
@@ -178,14 +224,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void clearUserFromPref() {
+        Log.d("MainActivity", "clearUserFromPref CALLED SUCCESSFULLY");
         getIntent().putExtra(USER_ID_KEY, -1);
     }
 
     private void clearUserFromIntent() {
+        Log.d("MainActivity", "clearUserFromIntent CALLED SUCCESSFULLY");
         addUserToPreference(-1);
     }
 
     private void addUserToPreference(int userId) {
+        Log.d("MainActivity", "addUserToPreference CALLED SUCCESSFULLY");
         if (preferences == null) {
             getPrefs();
         }
@@ -195,6 +244,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getPrefs() {
+        Log.d("MainActivity", "getPrefs CALLED SUCCESSFULLY");
         preferences = this.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE);
     }
 }

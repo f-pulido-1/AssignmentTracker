@@ -29,6 +29,7 @@ public class StudentViewerActivity extends AppCompatActivity {
     private AssignmentTrackerDAO assignmentTrackerDAO;
     private List<User> userList;
     private User adminUser;
+    private static final String USER_ID_KEY = "com.example.assignmenttracker.userIdKey";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,8 @@ public class StudentViewerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_student_viewer);
 
         getDatabase();
+        int userId = getIntent().getIntExtra(USER_ID_KEY, -1);
+        getAdminUser(userId);
 
         binding = ActivityStudentViewerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -50,8 +53,18 @@ public class StudentViewerActivity extends AppCompatActivity {
             Log.d("StudentViewerActivity", "Username: " + adminUser.getUsername() + " First: " + adminUser.getFirstName());
             Intent intent = new Intent(StudentViewerActivity.this, AdminMainActivity.class);
             //TODO: fix error where when going back and forth between adminMain and studentviewer causes app to crash
+            intent.putExtra(USER_ID_KEY, getIntent().getStringExtra(USER_ID_KEY));
             startActivity(intent);
         });
+    }
+
+    private void getAdminUser(int userId) {
+
+        adminUser = assignmentTrackerDAO.getUserByUserId(userId);
+        if (adminUser == null) {
+            Log.e("StudentViewerActivity", "Admin user not found.");
+            finish(); // Close the activity if the admin user is not found
+        }
     }
 
     private void getDatabase() {

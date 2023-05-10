@@ -30,14 +30,14 @@ import java.util.Objects;
 public class LoginActivity extends AppCompatActivity {
 
     // Fields
-    private EditText usernameField;
-    private EditText passwordField;
-    private Button button;
-    private AssignmentTrackerDAO assignmentTrackerDAO;
-    private String username;
-    private String password;
-    private User user;
-    private TextView txtSignIn;
+     EditText usernameField;
+     EditText passwordField;
+     Button button;
+     AssignmentTrackerDAO assignmentTrackerDAO;
+     String username;
+     String password;
+     User user;
+     TextView txtSignIn;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // When txtSignIn is clicked, the SignUpActivity launched
         txtSignIn.setOnClickListener(view -> {
+            Log.d("LoginActivity", "txtSignIn buttonClicked");
             Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
             startActivity(intent);
         });
@@ -89,10 +90,14 @@ public class LoginActivity extends AppCompatActivity {
     private boolean checkForUserInDatabase() {
         Log.d("LoginActivity", "checkForUserInDatabase CALLED SUCCESSFULLY");
         user = assignmentTrackerDAO.getUserByUsername(username);
-        if (user == null) {
-            Toast.makeText(this, "No user " + user + " found", Toast.LENGTH_SHORT).show();
+        Log.d("LoginActivity", "checkForUserInDatabase user = " + user);
+        if (user != null) {
+            Toast.makeText(this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
+            return true; // Is this the bug?
         }
-        return true;
+        Log.d("LoginActivity", "checkForUserInDatabase FOUND NULL USER");
+        Toast.makeText(this, "No user " + username + " found", Toast.LENGTH_SHORT).show();
+        return false;
     }
 
     private void getValuesFromDisplay() {
