@@ -49,6 +49,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("AdminMainActivity", "onCreate CALLED SUCCESSFULLY");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_main);
 
@@ -68,7 +69,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
         viewAllStudentsButton.setOnClickListener(view -> {
             Log.d("AdminMainActivity", "STARTING StudentViewerActivity");
-            Log.d("AdminMainActivity", "Username: " + adminUser.getUsername() + " First: " + adminUser.getFirstName());
+            Log.d("AdminMainActivity", "Username: " + adminUser.getUsername() + "\nFirst: " + adminUser.getFirstName());
             Intent intent = new Intent(AdminMainActivity.this, StudentViewerActivity.class);
             // TODO: fix error connected to StudentViewerActivity
             intent.putExtra(USER_ID_KEY, userId);
@@ -80,6 +81,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d("AdminMainActivity", "onCreateOptionsMenu CALLED SUCCESSFULLY");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
 
@@ -88,6 +90,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Log.d("AdminMainActivity", "onOptionsItemSelected CALLED SUCCESSFULLY");
         switch(item.getItemId()) {
             case R.id.item1:
                 Toast.makeText(this, "Item 1 Selected", Toast.LENGTH_SHORT).show();
@@ -111,7 +114,7 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
     private void displayWelcomeMessage() {
-        Log.d("AdminMainActivity", "DURING displayWelcomeMessage()");
+        Log.d("AdminMainActivity", "displayWelcomeMessage() CALLED SUCCESSFULLY");
         adminUser = assignmentTrackerDAO.getUserByUserId(userId);
         String firstName = adminUser.getFirstName();
         String lastName = adminUser.getLastName();
@@ -120,6 +123,7 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
     private void logoutUser() {
+        Log.d("AdminMainActivity", "logoutUser CALLED SUCCESSFULLY");
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
 
         alertBuilder.setMessage("Logout");
@@ -140,6 +144,7 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
     private void checkForUser() {
+        Log.d("AdminMainActivity", "checkForUser CALLED SUCCESSFULLY");
         // Do we have a user in the intent?
         userId = getIntent().getIntExtra(USER_ID_KEY, -1);
 
@@ -161,14 +166,17 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
     private void clearUserFromPref() {
+        Log.d("AdminMainActivity", "clearUserFromPref CALLED SUCCESSFULLY");
         getIntent().putExtra(USER_ID_KEY,-1);
     }
 
     private void clearUserFromIntent() {
+        Log.d("AdminMainActivity", "clearUserFromIntent CALLED SUCCESSFULLY");
         addUserToPreference(-1);
     }
 
     private void addUserToPreference(int userId) {
+        Log.d("AdminMainActivity", "addUserToPreference CALLED SUCCESSFULLY");
         if (preferences == null) {
             getPrefs();
         }
@@ -178,6 +186,7 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
     private void getPrefs() {
+        Log.d("AdminMainActivity", "getPrefs CALLED SUCCESSFULLY");
         preferences = this.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE);
     }
 }
