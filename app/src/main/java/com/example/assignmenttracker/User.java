@@ -2,7 +2,9 @@ package com.example.assignmenttracker;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
 import com.example.assignmenttracker.DB.AppDataBase;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +27,8 @@ public class User {
     private String lastName;
 
     // Constructor(s)
-    public User( String firstName, String lastName, String username, String password, boolean isAdmin) {
-        this.firstName =  firstName;
+    public User(String firstName, String lastName, String username, String password, boolean isAdmin) {
+        this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
@@ -86,7 +88,7 @@ public class User {
     @Override
     public String toString() {
         return "User#" + userId + ": " + username +
-                "\nFirst Name: "  + firstName +
+                "\nFirst Name: " + firstName +
                 "\nLast Name: " + lastName +
                 "\nisAdmin: " + isAdmin + "\n\n";
     }

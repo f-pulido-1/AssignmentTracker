@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,7 +40,7 @@ public class AdminMainActivity extends AppCompatActivity {
     private User adminUser;
     private SharedPreferences preferences = null;
     private int userId = -1;
-    
+
     public static Intent intentFactory(Context context, int userId) {
         Log.d("AdminMainActivity", "intentFactory CALLED SUCCESSFULLY");
         Intent intent = new Intent(context, AdminMainActivity.class);
@@ -91,7 +92,7 @@ public class AdminMainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Log.d("AdminMainActivity", "onOptionsItemSelected CALLED SUCCESSFULLY");
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.item1:
                 Toast.makeText(this, "Edit Profile Selected", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(AdminMainActivity.this, EditProfileActivity.class);
@@ -102,7 +103,8 @@ public class AdminMainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Item 2 Selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.item3:
-                Toast.makeText(this, "Item 3 Selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Logout Selected", Toast.LENGTH_SHORT).show();
+                logoutUser();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -158,7 +160,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
         SharedPreferences preferences = this.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE);
 
-        userId = preferences.getInt(USER_ID_KEY,-1);
+        userId = preferences.getInt(USER_ID_KEY, -1);
 
         if (userId != -1) {
             return;
@@ -170,7 +172,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
     private void clearUserFromPref() {
         Log.d("AdminMainActivity", "clearUserFromPref CALLED SUCCESSFULLY");
-        getIntent().putExtra(USER_ID_KEY,-1);
+        getIntent().putExtra(USER_ID_KEY, -1);
     }
 
     private void clearUserFromIntent() {

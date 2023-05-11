@@ -2,6 +2,7 @@ package com.example.assignmenttracker;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
 import com.example.assignmenttracker.DB.AppDataBase;
 
 /**
@@ -11,11 +12,12 @@ import com.example.assignmenttracker.DB.AppDataBase;
  */
 
 // @Entity tells Room to treat this class as an entity and create a database table based on it.
-    // It includes parameter tableName that specifies the name of the table to be created.
+// It includes parameter tableName that specifies the name of the table to be created.
 @Entity(tableName = AppDataBase.ASSIGNMENTTRACKER_TABLE)
 public class AssignmentTracker {
     // Fields
-    @PrimaryKey(autoGenerate = true) // @PrimaryKey is used to mark trackerId as the primary key of table.
+    @PrimaryKey(autoGenerate = true)
+    // @PrimaryKey is used to mark trackerId as the primary key of table.
     private int trackerId;
 
     private String assignment;

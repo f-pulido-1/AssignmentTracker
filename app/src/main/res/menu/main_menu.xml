@@ -9,6 +9,6 @@
         android:title="Item 2"
         app:showAsAction="never" />
     <item android:id="@+id/item3"
-        android:title="Item 3"
+        android:title="Logout"
         app:showAsAction="never" />
 </menu>

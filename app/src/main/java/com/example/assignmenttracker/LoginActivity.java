@@ -26,14 +26,20 @@ public class LoginActivity extends AppCompatActivity {
 
     // Fields
     private static final String USER_ID_KEY = "com.example.assignmenttracker.userIdKey";
-     EditText usernameField;
-     EditText passwordField;
-     Button button;
-     AssignmentTrackerDAO assignmentTrackerDAO;
-     String username;
-     String password;
-     User user;
-     TextView txtSignIn;
+    EditText usernameField;
+    EditText passwordField;
+    Button button;
+    AssignmentTrackerDAO assignmentTrackerDAO;
+    String username;
+    String password;
+    User user;
+    TextView txtSignIn;
+
+    public static Intent intentFactory(Context context) {
+        Log.d("LoginActivity", "intentFactory CALLED SUCCESSFULLY");
+        return new Intent(context, LoginActivity.class);
+    }
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,10 +115,5 @@ public class LoginActivity extends AppCompatActivity {
                 .allowMainThreadQueries()
                 .build()
                 .AssignmentTrackerDAO();
-    }
-
-    public static Intent intentFactory(Context context) {
-        Log.d("LoginActivity", "intentFactory CALLED SUCCESSFULLY");
-        return new Intent(context, LoginActivity.class);
     }
 }

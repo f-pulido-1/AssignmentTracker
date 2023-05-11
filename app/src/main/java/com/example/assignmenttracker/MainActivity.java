@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.assignmenttracker.DB.AppDataBase;
 import com.example.assignmenttracker.DB.AssignmentTrackerDAO;
 import com.example.assignmenttracker.databinding.ActivityMainBinding;
@@ -32,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
     // Fields
     private static final String USER_ID_KEY = "com.example.assignmenttracker.userIdKey";
     private static final String PREFERENCES_KEY = "com.example.assignmenttracker.PREFERENCES_KEY";
+    User user;
+    String firstName;
+    String lastName;
     private ActivityMainBinding binding;
     private TextView mainDisplay;
     private EditText assignment;
@@ -43,10 +48,6 @@ public class MainActivity extends AppCompatActivity {
     private int userId = -1;
     private SharedPreferences preferences = null;
     private Button buttonLogout;
-    User user;
-    String firstName;
-    String lastName;
-
 
     public static Intent intentFactory(Context context, int userId) {
         Log.d("MainActivity", "intentFactory CALLED SUCCESSFULLY");
@@ -84,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         buttonLogout.setOnClickListener(view -> logoutUser());
-}
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         Log.d("MainActivity", "onCreateOptionsMenu CALLED SUCCESSFULLY");
@@ -96,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Log.d("MainActivity", "onOptionsItemSelected CALLED SUCCESSFULLY");
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.item1:
                 Toast.makeText(this, "Edit Profile Selected", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
@@ -107,7 +109,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Item 2 Selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.item3:
-                Toast.makeText(this, "Item 3 Selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Logout Selected", Toast.LENGTH_SHORT).show();
+                logoutUser();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -134,9 +137,9 @@ public class MainActivity extends AppCompatActivity {
     private void refreshDisplay() {
         Log.d("MainActivity", "refreshDisplay CALLED SUCCESSFULLY");
         assignmentTrackerList = assignmentTrackerDAO.getTrackersByUserId(userId);
-        if(!assignmentTrackerList.isEmpty()) {
+        if (!assignmentTrackerList.isEmpty()) {
             StringBuilder sb = new StringBuilder();
-            for(AssignmentTracker tracker : assignmentTrackerList) {
+            for (AssignmentTracker tracker : assignmentTrackerList) {
                 sb.append(tracker.toString());
             }
             mainDisplay.setText(sb.toString());
@@ -157,35 +160,23 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences preferences = this.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE);
 
-        userId = preferences.getInt(USER_ID_KEY,-1);
+        userId = preferences.getInt(USER_ID_KEY, -1);
 
         if (userId != -1) {
             return;
         }
 
         // Do we have any users at all?
-//        if (userId == -1) {
-//            List<User> users = assignmentTrackerDAO.getAllUsers();
-//            if (users.size() <= 0) {
-//                User defaultUser = new User("Mike", "Wazowski", "testuser1", "testuser1", false);
-//                User altUser = new User("James", "Sullivan", "admin2", "admin2",true);
-//                assignmentTrackerDAO.insert(defaultUser, altUser);
-////                userId = defaultUser.getUserId(); // Set the user ID to the ID of the newly inserted user
-//            }
-//            else {
-//                userId = users.get(0).getUserId(); // Set the user ID to the ID of the first user in the database
-//            }
-//            // Store the user ID in the preferences
-//            SharedPreferences.Editor editor = this.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE).edit();
-//            editor.putInt(USER_ID_KEY, userId);
-//            editor.apply();
-//        }
         List<User> users = assignmentTrackerDAO.getAllUsers();
         if (users.size() <= 0) {
             User defaultUser = new User("Mike", "Wazowski", "testuser1", "testuser1", false);
             User altUser = new User("James", "Sullivan", "admin2", "admin2", true);
             assignmentTrackerDAO.insert(defaultUser, altUser);
         }
+        // Store the user ID in the preferences
+        // SharedPreferences.Editor editor = this.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE).edit();
+        // editor.putInt(USER_ID_KEY, userId);
+        // editor.apply();
         Intent intent = LoginActivity.intentFactory(this);
         startActivity(intent);
     }
@@ -208,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
                 (dialog, which) -> {
                     clearUserFromIntent();
                     clearUserFromPref();
-                    userId=-1;
+                    userId = -1;
                     checkForUser();
                 });
         alertBuilder.setNegativeButton(getString(R.string.no),

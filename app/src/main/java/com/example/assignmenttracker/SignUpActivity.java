@@ -26,6 +26,7 @@ import com.example.assignmenttracker.databinding.ActivitySignUpBinding;
  */
 
 public class SignUpActivity extends AppCompatActivity {
+    private static final String USER_ID_KEY = "com.example.assignmenttracker.userIdKey";
     // Fields
     ActivitySignUpBinding binding;
     Button buttonSignUp;
@@ -35,10 +36,8 @@ public class SignUpActivity extends AppCompatActivity {
     EditText username;
     EditText password;
     EditText passwordConfirm;
-
     AssignmentTrackerDAO assignmentTrackerDAO;
     private int userId = -1;
-    private static final String USER_ID_KEY = "com.example.assignmenttracker.userIdKey";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -70,7 +69,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             User checkUser = assignmentTrackerDAO.getUserByUsername(usernameValue);
 
-            if (checkUser != null){
+            if (checkUser != null) {
                 Toast.makeText(getApplicationContext(), usernameValue + " already taken", Toast.LENGTH_SHORT).show();
             } else {
                 User newUser = new User(firstNameValue, lastNameValue, usernameValue, passwordValue, false);
@@ -89,7 +88,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    private void getDatabase(){
+    private void getDatabase() {
         assignmentTrackerDAO = Room.databaseBuilder(this, AppDataBase.class, AppDataBase.DATABASE_NAME)
                 .allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
