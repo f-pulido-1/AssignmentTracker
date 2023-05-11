@@ -25,24 +25,13 @@ public class User {
     private String lastName;
 
     // Constructor(s)
-    public User(int userId, String firstName, String lastName, String username, String password, boolean isAdmin) {
-        this.userId = userId;
+    public User( String firstName, String lastName, String username, String password, boolean isAdmin) {
         this.firstName =  firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
         this.isAdmin = isAdmin;
     }
-
-    // Predefined users
-    // returns a list of two predefined User objects.
-    // It also is used to initialize the user database.
-//    public static List<User> getPredefinedUsers() {
-//        List<User> userList = new ArrayList<>();
-//        userList.add(new User("user1", "lastnameUser1", "testUser1", "password1", true));
-//        userList.add(new User("user2", "lastnameUser2", "testUser2", "password2", false));
-//        return userList;
-//    }
 
     // Getters & Setters
     public int getUserId() {
@@ -96,12 +85,6 @@ public class User {
     // Other
     @Override
     public String toString() {
-//        return "User{" +
-//                "userId=" + userId +
-//                ", username='" + username + '\'' +
-//                ", password='" + password + '\'' +
-//                ", isAdmin=" + isAdmin +
-//                '}';
         return "User#" + userId + ": " + username +
                 "\nFirst Name: "  + firstName +
                 "\nLast Name: " + lastName +

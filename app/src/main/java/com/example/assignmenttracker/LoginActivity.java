@@ -72,9 +72,9 @@ public class LoginActivity extends AppCompatActivity {
 
         // When txtSignIn is clicked, the SignUpActivity launched
         txtSignIn.setOnClickListener(view -> {
-            Log.d("LoginActivity", "txtSignIn buttonClicked");
+            Log.d("LoginActivity", "txtSignInButton setOnCLickListener ACTIVATED");
             Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-            intent.putExtra(USER_ID_KEY, user.getUserId());
+//            intent.putExtra(USER_ID_KEY, user.getUserId());
             startActivity(intent);
         });
     }

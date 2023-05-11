@@ -65,12 +65,6 @@ public class AssignmentTracker {
 
     @Override
     public String toString() {
-//        return "AssignmentTracker{" +
-//                "trackerId=" + trackerId +
-//                ", assignment='" + assignment + '\'' +
-//                ", score=" + score +
-//                ", userId=" + userId +
-//                '}';
         return "Assignment:" + assignment + "\nScore: " + score + "\n\n";
     }
 }

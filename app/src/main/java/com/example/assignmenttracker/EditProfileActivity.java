@@ -70,7 +70,10 @@ public class EditProfileActivity extends AppCompatActivity {
             if (checkUser != null && !Objects.equals(checkUser.getUsername(), user.getUsername())){
                 Toast.makeText(getApplicationContext(), usernameValue + " already taken", Toast.LENGTH_SHORT).show();
             } else {
-                user = new User(userId, firstNameValue, lastNameValue, usernameValue, passwordValue, false);
+                user.setFirstName(firstNameValue);
+                user.setLastName(lastNameValue);
+                user.setUsername(usernameValue);
+                user.setPassword(passwordValue);
                 assignmentTrackerDAO.update(user);
                 Toast.makeText(getApplicationContext(), "Your profile has updated", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(EditProfileActivity.this, MainActivity.class);

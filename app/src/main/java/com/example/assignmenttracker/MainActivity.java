@@ -4,9 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
-
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,12 +12,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.assignmenttracker.DB.AppDataBase;
 import com.example.assignmenttracker.DB.AssignmentTrackerDAO;
 import com.example.assignmenttracker.databinding.ActivityMainBinding;
@@ -87,9 +83,7 @@ public class MainActivity extends AppCompatActivity {
             refreshDisplay();
         });
 
-        buttonLogout.setOnClickListener(view -> {
-            logoutUser();
-        });
+        buttonLogout.setOnClickListener(view -> logoutUser());
 }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("MainActivity", "onOptionsItemSelected CALLED SUCCESSFULLY");
         switch(item.getItemId()) {
             case R.id.item1:
-                Toast.makeText(this, "Item 1 Selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Edit Profile Selected", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
                 intent.putExtra(USER_ID_KEY, userId);
                 startActivity(intent);
@@ -188,8 +182,8 @@ public class MainActivity extends AppCompatActivity {
 //        }
         List<User> users = assignmentTrackerDAO.getAllUsers();
         if (users.size() <= 0) {
-            User defaultUser = new User(userId,"Mike", "Wazowski", "testuser1", "testuser1", false);
-            User altUser = new User(userId,"James", "Sullivan", "admin2", "admin2", true);
+            User defaultUser = new User("Mike", "Wazowski", "testuser1", "testuser1", false);
+            User altUser = new User("James", "Sullivan", "admin2", "admin2", true);
             assignmentTrackerDAO.insert(defaultUser, altUser);
         }
         Intent intent = LoginActivity.intentFactory(this);

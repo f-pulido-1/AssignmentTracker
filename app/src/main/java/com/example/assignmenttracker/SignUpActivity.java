@@ -46,7 +46,7 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up); // xml file that is displayed
 
-        userId = getIntent().getIntExtra(USER_ID_KEY, -1);
+//        userId = getIntent().getIntExtra(USER_ID_KEY, -1);
 
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -73,7 +73,7 @@ public class SignUpActivity extends AppCompatActivity {
             if (checkUser != null){
                 Toast.makeText(getApplicationContext(), usernameValue + " already taken", Toast.LENGTH_SHORT).show();
             } else {
-                User newUser = new User(userId, firstNameValue, lastNameValue, usernameValue, passwordValue, false);
+                User newUser = new User(firstNameValue, lastNameValue, usernameValue, passwordValue, false);
                 assignmentTrackerDAO.insert(newUser);
 
                 Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);

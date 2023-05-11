@@ -93,7 +93,10 @@ public class AdminMainActivity extends AppCompatActivity {
         Log.d("AdminMainActivity", "onOptionsItemSelected CALLED SUCCESSFULLY");
         switch(item.getItemId()) {
             case R.id.item1:
-                Toast.makeText(this, "Item 1 Selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Edit Profile Selected", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(AdminMainActivity.this, EditProfileActivity.class);
+                intent.putExtra(USER_ID_KEY, userId);
+                startActivity(intent);
                 return true;
             case R.id.item2:
                 Toast.makeText(this, "Item 2 Selected", Toast.LENGTH_SHORT).show();
