@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private int userId = -1;
     private SharedPreferences preferences = null;
     private Button buttonLogout;
+    private Button buttonAttendance;
 
 
     public static Intent intentFactory(Context context, int userId) {
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         score = binding.mainScoreEditText;
         submit = binding.mainSubmitButton;
         buttonLogout = binding.buttonLogout;
+        buttonAttendance = binding.logAttendanceButton;
 
         refreshDisplay();
 
@@ -81,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
 
         buttonLogout.setOnClickListener(view -> {
             logoutUser();
+        });
+
+        buttonAttendance.setOnClickListener(view ->{
+
         });
 }
 
@@ -169,6 +175,17 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         alertBuilder.create().show();
+    }
+
+    public void takeAttendance(View v) {
+        try{
+            Intent i = new Intent(this, Attendance.class);
+            startActivity(i);
+        }
+        catch(Exception ex)
+        {
+            Log.e("main",ex.toString());
+        }
     }
 
     private void clearUserFromPref() {
