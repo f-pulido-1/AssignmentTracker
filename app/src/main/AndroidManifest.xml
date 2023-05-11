@@ -12,6 +12,9 @@
         android:theme="@style/Theme.AssignmentTracker"
         tools:targetApi="31">
         <activity
+            android:name=".EditProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".StudentViewerActivity"
             android:exported="false" />
         <activity

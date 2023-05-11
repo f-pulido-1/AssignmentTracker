@@ -8,7 +8,7 @@
 
 
     <EditText
-        android:id="@+id/editTextLoginPassword"
+        android:id="@+id/editTextSignUpPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -17,10 +17,10 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextLoginUsername" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextSignUpUsername" />
 
     <EditText
-        android:id="@+id/editTextLoginUsername"
+        android:id="@+id/editTextSignUpUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="112dp"
@@ -35,7 +35,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/buttonLogin"
+        android:id="@+id/buttonSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login"
@@ -44,23 +44,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextLoginPassword"
+        app:layout_constraintTop_toBottomOf="@+id/editTextSignUpPassword"
         app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout
-        android:layout_width="214dp"
-        android:layout_height="45dp"
+        android:layout_width="253dp"
+        android:layout_height="46dp"
         android:layout_marginTop="48dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLogin"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSignUp"
         app:layout_constraintVertical_bias="0.0">
 
         <TextView
-            android:id="@+id/textViewSignInMessage"
+            android:id="@+id/textViewLogInMessage"
             android:layout_width="99dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -69,7 +69,7 @@
             android:textColor="@color/black" />
 
         <TextView
-            android:id="@+id/textViewSignIn"
+            android:id="@+id/textViewLogIn"
             android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -79,14 +79,14 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textViewLogInTitle"
+        android:id="@+id/textViewSignUpTitle"
         android:layout_width="176dp"
         android:layout_height="67dp"
         android:gravity="center"
         android:text="Log In"
         android:textColor="@color/black"
         android:textSize="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextLoginUsername"
+        app:layout_constraintBottom_toTopOf="@+id/editTextSignUpUsername"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

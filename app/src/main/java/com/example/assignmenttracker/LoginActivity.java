@@ -15,11 +15,6 @@ import android.widget.Toast;
 
 import com.example.assignmenttracker.DB.AppDataBase;
 import com.example.assignmenttracker.DB.AssignmentTrackerDAO;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Carlos Santiago, Fernando A. Pulido
@@ -30,14 +25,21 @@ import java.util.Objects;
 public class LoginActivity extends AppCompatActivity {
 
     // Fields
-    private EditText usernameField;
-    private EditText passwordField;
-    private Button button;
-    private AssignmentTrackerDAO assignmentTrackerDAO;
-    private String username;
-    private String password;
-    private User user;
-    private TextView txtSignIn;
+    private static final String USER_ID_KEY = "com.example.assignmenttracker.userIdKey";
+    EditText usernameField;
+    EditText passwordField;
+    Button button;
+    AssignmentTrackerDAO assignmentTrackerDAO;
+    String username;
+    String password;
+    User user;
+    TextView txtSignIn;
+
+    public static Intent intentFactory(Context context) {
+        Log.d("LoginActivity", "intentFactory CALLED SUCCESSFULLY");
+        return new Intent(context, LoginActivity.class);
+    }
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +53,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void wireUpDisplay() {
         Log.d("LoginActivity", "wireUpDisplay CALLED SUCCESSFULLY");
-        usernameField = findViewById(R.id.editTextLoginUsername);
-        passwordField = findViewById(R.id.editTextLoginPassword);
-        button = findViewById(R.id.buttonLogin);
-        txtSignIn = findViewById(R.id.textViewSignIn);
+        usernameField = findViewById(R.id.editTextSignUpUsername);
+        passwordField = findViewById(R.id.editTextSignUpPassword);
+        button = findViewById(R.id.buttonSignUp);
+        txtSignIn = findViewById(R.id.textViewLogIn);
 
         button.setOnClickListener(v -> {
             getValuesFromDisplay();
@@ -76,7 +78,9 @@ public class LoginActivity extends AppCompatActivity {
 
         // When txtSignIn is clicked, the SignUpActivity launched
         txtSignIn.setOnClickListener(view -> {
+            Log.d("LoginActivity", "txtSignInButton setOnCLickListener ACTIVATED");
             Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+//            intent.putExtra(USER_ID_KEY, user.getUserId());
             startActivity(intent);
         });
     }
@@ -89,10 +93,14 @@ public class LoginActivity extends AppCompatActivity {
     private boolean checkForUserInDatabase() {
         Log.d("LoginActivity", "checkForUserInDatabase CALLED SUCCESSFULLY");
         user = assignmentTrackerDAO.getUserByUsername(username);
-        if (user == null) {
-            Toast.makeText(this, "No user " + user + " found", Toast.LENGTH_SHORT).show();
+        Log.d("LoginActivity", "checkForUserInDatabase user = " + user);
+        if (user != null) {
+//            Toast.makeText(this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
+            return true; // Is this the bug?
         }
-        return true;
+        Log.d("LoginActivity", "checkForUserInDatabase FOUND NULL USER");
+        Toast.makeText(this, "No user " + username + " found", Toast.LENGTH_SHORT).show();
+        return false;
     }
 
     private void getValuesFromDisplay() {
@@ -107,10 +115,5 @@ public class LoginActivity extends AppCompatActivity {
                 .allowMainThreadQueries()
                 .build()
                 .AssignmentTrackerDAO();
-    }
-
-    public static Intent intentFactory(Context context) {
-        Log.d("LoginActivity", "intentFactory CALLED SUCCESSFULLY");
-        return new Intent(context, LoginActivity.class);
     }
 }
