@@ -42,6 +42,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText editProfilePasswordText;
     private Button editProfileUpdateButton;
     private Button editProfileBackButton;
+    private Button editProfileDeleteButton;
     private SharedPreferences preferences = null;
     private User user;
 
@@ -63,6 +64,7 @@ public class EditProfileActivity extends AppCompatActivity {
         editProfilePasswordText = binding.editProfilePasswordText;
         editProfileUpdateButton = binding.editProfileUpdateButton;
         editProfileBackButton = binding.editProfileBackButton;
+        editProfileDeleteButton = binding.editProfileDeleteButton;
 
         user = assignmentTrackerDAO.getUserByUserId(userId);
 
@@ -101,6 +103,25 @@ public class EditProfileActivity extends AppCompatActivity {
                 intent = MainActivity.intentFactory(getApplicationContext(), userId);
             }
             startActivity(intent);
+        });
+
+        editProfileDeleteButton.setOnClickListener(view ->  {
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+
+            alertBuilder.setMessage("Are you sure you want to delete this profile?");
+
+            alertBuilder.setPositiveButton(getString(R.string.yes),
+                    (dialog, which) -> {
+                        assignmentTrackerDAO.delete(user);
+                        Intent intent = new Intent(EditProfileActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    });
+            alertBuilder.setNegativeButton(getString(R.string.no),
+                    (dialog, which) -> {
+                        //We don't really need to do anything here.
+                    });
+
+            alertBuilder.create().show();
         });
     }
 

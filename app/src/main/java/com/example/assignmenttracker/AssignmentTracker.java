@@ -5,6 +5,8 @@ import androidx.room.PrimaryKey;
 
 import com.example.assignmenttracker.DB.AppDataBase;
 
+import java.util.Date;
+
 /**
  * @author Carlos Santiago, Fernando A. Pulido
  * @since April 27, 2023
@@ -21,17 +23,17 @@ public class AssignmentTracker {
     private int trackerId;
 
     private String assignment;
-    private double score;
+    private String subject;
+    private String date;
     private int userId;
 
-
     // Constructor(s)
-    public AssignmentTracker(String assignment, double score, int userId) {
+    public AssignmentTracker(String assignment, String subject, String date, int userId) {
         this.assignment = assignment;
-        this.score = score;
+        this.subject = subject;
+        this.date = date;
         this.userId = userId;
     }
-
     // Getters & Setters
     public String getAssignment() {
         return assignment;
@@ -41,12 +43,20 @@ public class AssignmentTracker {
         this.assignment = assignment;
     }
 
-    public double getScore() {
-        return score;
+    public String getSubject() {
+        return subject;
     }
 
-    public void setScore(double score) {
-        this.score = score;
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public int getTrackerId() {
@@ -67,6 +77,6 @@ public class AssignmentTracker {
 
     @Override
     public String toString() {
-        return "Assignment:" + assignment + "\nScore: " + score + "\n\n";
+        return "Assignment:" + assignment + "\nSubject: "+ subject +"\nDue: " + date + "\n\n";
     }
 }

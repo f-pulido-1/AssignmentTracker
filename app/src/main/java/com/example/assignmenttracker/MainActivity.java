@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ import com.example.assignmenttracker.DB.AppDataBase;
 import com.example.assignmenttracker.DB.AssignmentTrackerDAO;
 import com.example.assignmenttracker.databinding.ActivityMainBinding;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -34,20 +37,22 @@ public class MainActivity extends AppCompatActivity {
     // Fields
     private static final String USER_ID_KEY = "com.example.assignmenttracker.userIdKey";
     private static final String PREFERENCES_KEY = "com.example.assignmenttracker.PREFERENCES_KEY";
+    private DatePickerDialog datePickerDialog;
+    private Button mainDateButton;
     User user;
     String firstName;
     String lastName;
     private ActivityMainBinding binding;
     private TextView mainDisplay;
     private EditText assignment;
-    private EditText score;
     private Button submit;
+    private EditText subject;
     private TextView mainWelcomeMessage;
     private AssignmentTrackerDAO assignmentTrackerDAO;
     private List<AssignmentTracker> assignmentTrackerList;
     private int userId = -1;
     private SharedPreferences preferences = null;
-    private Button buttonLogout;
+//    private Button buttonLogout;
 
     public static Intent intentFactory(Context context, int userId) {
         Log.d("MainActivity", "intentFactory CALLED SUCCESSFULLY");
@@ -64,16 +69,18 @@ public class MainActivity extends AppCompatActivity {
 
         getDatabase();
         checkForUser();
+        initDatePicker();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         mainDisplay = binding.mainAssignmentTrackerDisplay;
         assignment = binding.mainAssignmentEditText;
-        score = binding.mainScoreEditText;
+        subject = binding.mainSubjectEditText;
         submit = binding.mainSubmitButton;
-        buttonLogout = binding.buttonLogout;
         mainWelcomeMessage = binding.mainWelcomeMessage;
+        mainDateButton = binding.mainDateButton;
+        mainDateButton.setText(getTodaysDate());
 
         displayWelcomeMessage();
 
@@ -83,9 +90,63 @@ public class MainActivity extends AppCompatActivity {
             submitAssignmentTracker();
             refreshDisplay();
         });
-
-        buttonLogout.setOnClickListener(view -> logoutUser());
     }
+
+    private String getTodaysDate() {
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        month = month + 1;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        return makeDateString(day,month,year);
+    }
+
+    private void initDatePicker() {
+        DatePickerDialog.OnDateSetListener dateSetListener = (datePicker, year, month, day) -> {
+            month = month + 1;
+            String date = makeDateString(day, month, year);
+            mainDateButton.setText(date);
+        };
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        datePickerDialog = new DatePickerDialog(this, dateSetListener, year, month, day);
+    }
+
+    private String makeDateString(int day, int month, int year) {
+        return getMonthFormat(month) + " " + day + " " + year;
+    }
+
+    private String getMonthFormat(int month) {
+        if(month == 1)
+            return "JAN";
+        if(month == 2)
+            return "FEB";
+        if(month == 3)
+            return "MAR";
+        if(month == 4)
+            return "APR";
+        if(month == 5)
+            return "MAY";
+        if(month == 6)
+            return "JUN";
+        if(month == 7)
+            return "JUL";
+        if(month == 8)
+            return "AUG";
+        if(month == 9)
+            return "SEP";
+        if(month == 10)
+            return "OCT";
+        if(month == 11)
+            return "NOV";
+        if(month == 12)
+            return "DEC";
+        return "JAN";
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -122,15 +183,16 @@ public class MainActivity extends AppCompatActivity {
         if (user != null) {
             firstName = user.getFirstName();
             lastName = user.getLastName();
-            mainWelcomeMessage.setText("Hello, " + firstName + " " + lastName + "!");
+            mainWelcomeMessage.setText("Hello, " + firstName + "! Enter your assignments below");
         }
     }
 
     private void submitAssignmentTracker() {
         Log.d("MainActivity", "submitAssignmentTracker CALLED SUCCESSFULLY");
         String assignmentText = assignment.getText().toString();
-        double scoreValue = Double.parseDouble(score.getText().toString());
-        AssignmentTracker tracker = new AssignmentTracker(assignmentText, scoreValue, userId);
+        String subjectText = subject.getText().toString();
+        String dateValue = mainDateButton.getText().toString();
+        AssignmentTracker tracker = new AssignmentTracker(assignmentText, subjectText, dateValue, userId);
         assignmentTrackerDAO.insert(tracker);
     }
 
@@ -233,5 +295,9 @@ public class MainActivity extends AppCompatActivity {
     private void getPrefs() {
         Log.d("MainActivity", "getPrefs CALLED SUCCESSFULLY");
         preferences = this.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE);
+    }
+
+    public void openDatePicker(View view) {
+        datePickerDialog.show();
     }
 }
