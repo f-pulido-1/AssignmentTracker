@@ -1,8 +1,8 @@
 package com.example.assignmenttracker;
 
 public class ClassItem {
-    String className;
-    String subjectName;
+    private String className;
+    private String subjectName;
 
     public ClassItem(String className, String subjectName) {
         this.className = className;

@@ -1,13 +1,14 @@
 package com.example.assignmenttracker;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
+//import android.widget.Toolbar;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,9 +24,8 @@ public class AttendanceActivity extends AppCompatActivity {
     ClassAdapter classAdapter;
     RecyclerView.LayoutManager layoutManager;
     ArrayList<ClassItem> classItems = new ArrayList<>();
+    Toolbar toolbar;
 
-    EditText class_edit;
-    EditText subject_edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,34 +42,40 @@ public class AttendanceActivity extends AppCompatActivity {
         recyclerViewClasses.setLayoutManager(layoutManager);
         classAdapter = new ClassAdapter(this, classItems);
         recyclerViewClasses.setAdapter(classAdapter);
+        classAdapter.setOnItemClickListener(position -> gotoItemActivity(position));
 
+        setToolbar();
+    }
+
+    private void setToolbar() {
+        toolbar = findViewById(R.id.toolbar);
+        TextView title = toolbar.findViewById(R.id.title_toolbar);
+        TextView subtitle = toolbar.findViewById(R.id.subtitle_toolbar);
+        ImageButton back = toolbar.findViewById(R.id.back);
+        ImageButton save = toolbar.findViewById(R.id.save);
+
+        title.setText("Attendance App");
+        subtitle.setVisibility(View.GONE);
+        back.setVisibility(View.INVISIBLE);
+        save.setVisibility(View.INVISIBLE);
+    }
+
+    private void gotoItemActivity(int position) {
+        Intent intent = new Intent(this, StudentActivity.class);
+
+        intent.putExtra("className", classItems.get(position).getClassName());
+        intent.putExtra("subjectName", classItems.get(position).getSubjectName());
+        intent.putExtra("position", position);
+        startActivity(intent);
     }
 
     private void showDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = LayoutInflater.from (this).inflate(R.layout.dialog, null);
-        builder.setView(view);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-        class_edit = view.findViewById(R.id.edit01);
-        subject_edit = view.findViewById(R.id.edit02);
-
-        Button cancel = view.findViewById(R.id.cancel_button);
-        Button add = view.findViewById(R.id.add_button);
-
-        cancel.setOnClickListener(v -> dialog.dismiss());
-        add.setOnClickListener(v -> {
-            addClass();
-            dialog.dismiss();
-        });
-
-
+        MyDialog dialog = new MyDialog();
+        dialog.show(getSupportFragmentManager(), MyDialog.CLASS_ADD_DIALOG);
+        dialog.setListener((className, subjectName) -> addClass(className, subjectName)); //TODO: Check if functionality is the same with suggestion from AS
     }
 
-    private void addClass() {
-        String className = class_edit.getText().toString();
-        String subjectName = subject_edit.getText().toString();
+    private void addClass(String className, String subjectName) {
         classItems.add(new ClassItem(className, subjectName));
         classAdapter.notifyDataSetChanged();
     }
