@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         logAttendanceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Attendance.class);
+                Intent intent = new Intent(MainActivity.this, AttendanceActivity.class);
                 intent.putExtra(USER_ID_KEY, userId);
                 startActivity(intent);
             }

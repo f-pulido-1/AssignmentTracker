@@ -19,6 +19,12 @@
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteY="617dp" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewClasses"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

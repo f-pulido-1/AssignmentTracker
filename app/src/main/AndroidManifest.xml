@@ -27,7 +27,7 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".Attendance" />
+            android:name=".AttendanceActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

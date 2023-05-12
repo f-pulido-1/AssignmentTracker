@@ -23,6 +23,10 @@ public class Attendance {
     private boolean isPresent;
 
     //    Constructor
+
+    public Attendance() {
+    }
+
     public Attendance(String className, int attendanceId, boolean isPresent){
         this.className = className;
         this.attendanceId = attendanceId;
