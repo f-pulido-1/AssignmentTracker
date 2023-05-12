@@ -74,11 +74,28 @@
         android:layout_height="229dp"
         android:layout_marginTop="68dp"
         android:text="It looks like you have no assignments"
+        android:textColor="#000000"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mainScoreEditText"
         app:layout_constraintVertical_bias="0.085" />
+
+    <TextView
+        android:id="@+id/mainWelcomeMessage"
+        android:layout_width="211dp"
+        android:layout_height="49dp"
+        android:gravity="center"
+        android:text="Hello!"
+        android:textColor="#020202"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/mainSubmitButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toEndOf="@+id/buttonLogout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.304" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

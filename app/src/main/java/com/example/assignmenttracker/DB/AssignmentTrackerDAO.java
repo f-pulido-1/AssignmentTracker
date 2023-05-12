@@ -5,8 +5,8 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
+
 import com.example.assignmenttracker.AssignmentTracker;
-import com.example.assignmenttracker.Attendance;
 import com.example.assignmenttracker.User;
 
 import java.util.List;
@@ -20,8 +20,7 @@ import java.util.List;
 @Dao
 public interface AssignmentTrackerDAO {
     // Methods - Take on one or more instances of the AssignmentTracker class as parameters
-                // and performs appropriate database operations on them.
-//    START OF ASSIGNMENT TRACKER DAO
+    // and performs appropriate database operations on them.
     @Insert
     void insert(AssignmentTracker... assignmentTrackers);
 
@@ -34,21 +33,21 @@ public interface AssignmentTrackerDAO {
     // Custom methods using the @Query annotation
     @Query("SELECT * FROM " + AppDataBase.ASSIGNMENTTRACKER_TABLE)
     List<AssignmentTracker> getAssignmentTrackers(); // returns list of AssignmentTracker objects
-                                                        // in the database.
+    // in the database.
 
     @Query("SELECT * FROM " + AppDataBase.ASSIGNMENTTRACKER_TABLE + " WHERE trackerId = :trackerId")
     List<AssignmentTracker> getTrackerById(int trackerId); // takes integer parameter and returns
-                                                            // list of AssignmentTracker objects
-                                                            // with matching trackerId field.
+
+    // list of AssignmentTracker objects
+    // with matching trackerId field.
     @Query("SELECT * FROM " + AppDataBase.ASSIGNMENTTRACKER_TABLE + " WHERE userId = :userId")
     List<AssignmentTracker> getTrackersByUserId(int userId);
 
-//    START OF USER DAO
     @Insert
     void insert(User... users);
 
     @Update
-    void update(User...users);
+    void update(User... users);
 
     @Delete
     void delete(User user);
@@ -62,19 +61,4 @@ public interface AssignmentTrackerDAO {
 
     @Query("SELECT * FROM " + AppDataBase.USER_TABLE + " WHERE username = :username")
     User getUserByUsername(String username);
-
-//    START OF ATTENDANCE DAO
-    @Insert
-    void insert(Attendance...attendances);
-    @Update
-    void update(Attendance...attendances);
-    @Delete
-    void delete(Attendance attendance);
-
-    @Query("SELECT * FROM " + AppDataBase.ATTENDANCE_TABLE)
-    List<Attendance> getAllAttendance();
-
-    @Query("SELECT * FROM " + AppDataBase.ATTENDANCE_TABLE + " WHERE userId = :userId")
-    Attendance getAttendanceByUserId(int userId);
-
 }
