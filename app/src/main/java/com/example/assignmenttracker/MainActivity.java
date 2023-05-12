@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private int userId = -1;
     private SharedPreferences preferences = null;
     private Button buttonLogout;
+    private Button logAttendanceButton;
 
     public static Intent intentFactory(Context context, int userId) {
         Log.d("MainActivity", "intentFactory CALLED SUCCESSFULLY");
@@ -85,6 +87,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
         buttonLogout.setOnClickListener(view -> logoutUser());
+
+
+        logAttendanceButton = findViewById(R.id.logAttendanceButton);
+        logAttendanceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Attendance.class);
+                intent.putExtra(USER_ID_KEY, userId);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
