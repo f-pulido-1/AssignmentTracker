@@ -1,10 +1,5 @@
 package com.example.assignmenttracker;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
-
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import com.example.assignmenttracker.DB.AppDataBase;
 import com.example.assignmenttracker.DB.AssignmentTrackerDAO;
@@ -37,22 +37,19 @@ public class MainActivity extends AppCompatActivity {
     // Field(s)
     private static final String USER_ID_KEY = "com.example.assignmenttracker.userIdKey";
     private static final String PREFERENCES_KEY = "com.example.assignmenttracker.PREFERENCES_KEY";
-    User user;
-    String firstName;
-    String lastName;
+    private User user;
+    private String firstName;
+    private String lastName;
     private DatePickerDialog datePickerDialog;
     private Button mainDateButton;
     private ActivityMainBinding binding;
-    private TextView mainDisplay;
     private EditText assignment;
     private Button submit;
     private EditText subject;
     private TextView mainWelcomeMessage;
     private AssignmentTrackerDAO assignmentTrackerDAO;
-    private List<AssignmentTracker> assignmentTrackerList;
     private int userId = -1;
     private SharedPreferences preferences = null;
-//    private Button buttonLogout;
 
     public static Intent intentFactory(Context context, int userId) {
         Log.d("MainActivity", "intentFactory CALLED SUCCESSFULLY");
@@ -65,28 +62,31 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("MainActivity", "onCreate CALLED SUCCESSFULLY");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        // Initialize database, user, and date picker
         getDatabase();
         checkForUser();
         initDatePicker();
 
+        // Set content view using view binding
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Initialize UI elements and display welcome message
         assignment = binding.mainAssignmentEditText;
         subject = binding.mainSubjectEditText;
         submit = binding.mainSubmitButton;
         mainWelcomeMessage = binding.mainWelcomeMessage;
         mainDateButton = binding.mainDateButton;
         mainDateButton.setText(getTodaysDate());
-
         displayWelcomeMessage();
 
+        // Set listener for submit button
         submit.setOnClickListener(view -> {
             submitAssignmentTracker();
         });
     }
+
 
     private String getTodaysDate() {
         Calendar cal = Calendar.getInstance();
@@ -116,30 +116,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String getMonthFormat(int month) {
-        if (month == 1)
-            return "JAN";
-        if (month == 2)
-            return "FEB";
-        if (month == 3)
-            return "MAR";
-        if (month == 4)
-            return "APR";
-        if (month == 5)
-            return "MAY";
-        if (month == 6)
-            return "JUN";
-        if (month == 7)
-            return "JUL";
-        if (month == 8)
-            return "AUG";
-        if (month == 9)
-            return "SEP";
-        if (month == 10)
-            return "OCT";
-        if (month == 11)
-            return "NOV";
-        if (month == 12)
-            return "DEC";
+        if (month == 1) return "JAN";
+        if (month == 2) return "FEB";
+        if (month == 3) return "MAR";
+        if (month == 4) return "APR";
+        if (month == 5) return "MAY";
+        if (month == 6) return "JUN";
+        if (month == 7) return "JUL";
+        if (month == 8) return "AUG";
+        if (month == 9) return "SEP";
+        if (month == 10) return "OCT";
+        if (month == 11) return "NOV";
+        if (month == 12) return "DEC";
         return "JAN";
     }
 
@@ -156,10 +144,13 @@ public class MainActivity extends AppCompatActivity {
         Log.d("MainActivity", "onOptionsItemSelected CALLED SUCCESSFULLY");
         Intent intent;
         switch (item.getItemId()) {
+            case R.id.item0:
+                Toast.makeText(this, "Go Back Selected Selected", Toast.LENGTH_SHORT).show();
+                logoutUser();
+                return true;
             case R.id.item1:
                 Toast.makeText(this, "Edit Profile Selected", Toast.LENGTH_SHORT).show();
-                intent = new Intent(MainActivity.this, EditProfileActivity.class);
-                intent.putExtra(USER_ID_KEY, userId);
+                intent = EditProfileActivity.intentFactory(getApplicationContext(), userId);
                 startActivity(intent);
                 return true;
             case R.id.item2:
@@ -167,8 +158,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.item3:
                 Toast.makeText(this, "To Do List Selected", Toast.LENGTH_SHORT).show();
-                intent = new Intent(MainActivity.this, ToDoActivity.class);
-                intent.putExtra(USER_ID_KEY, userId);
+                intent = ToDoActivity.intentFactory(getApplicationContext(), userId);
                 startActivity(intent);
                 return true;
             case R.id.item4:
@@ -196,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
         String dateValue = mainDateButton.getText().toString();
         AssignmentTracker tracker = new AssignmentTracker(assignmentText, subjectText, dateValue, userId);
         assignmentTrackerDAO.insert(tracker);
-        Toast.makeText(this, "Successfully added " + assignmentText + " to your To Do List", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Successfully added " + tracker.getAssignment() + " to your To Do List", Toast.LENGTH_SHORT).show();
     }
 
 //    private void refreshDisplay() {
@@ -248,10 +238,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void getDatabase() {
         Log.d("MainActivity", "getDatabase CALLED SUCCESSFULLY");
-        assignmentTrackerDAO = Room.databaseBuilder(this, AppDataBase.class, AppDataBase.DATABASE_NAME)
-                .allowMainThreadQueries()
-                .build()
-                .AssignmentTrackerDAO();
+        assignmentTrackerDAO = Room.databaseBuilder(this, AppDataBase.class, AppDataBase.DATABASE_NAME).allowMainThreadQueries().build().AssignmentTrackerDAO();
     }
 
     private void logoutUser() {
@@ -260,17 +247,15 @@ public class MainActivity extends AppCompatActivity {
 
         alertBuilder.setMessage("Logout");
 
-        alertBuilder.setPositiveButton(getString(R.string.yes),
-                (dialog, which) -> {
-                    clearUserFromIntent();
-                    clearUserFromPref();
-                    userId = -1;
-                    checkForUser();
-                });
-        alertBuilder.setNegativeButton(getString(R.string.no),
-                (dialog, which) -> {
-                    //We don't really need to do anything here.
-                });
+        alertBuilder.setPositiveButton(getString(R.string.yes), (dialog, which) -> {
+            clearUserFromIntent();
+            clearUserFromPref();
+            userId = -1;
+            checkForUser();
+        });
+        alertBuilder.setNegativeButton(getString(R.string.no), (dialog, which) -> {
+            //We don't really need to do anything here.
+        });
 
         alertBuilder.create().show();
     }

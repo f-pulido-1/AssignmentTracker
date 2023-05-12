@@ -8,75 +8,80 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.example.assignmenttracker.DB.AppDataBase;
 import com.example.assignmenttracker.DB.AssignmentTrackerDAO;
+import com.example.assignmenttracker.databinding.ActivityEditAssignmentBinding;
 
-import java.util.ArrayList;
-import java.util.List;
+public class EditAssignmentActivity extends AppCompatActivity {
 
-public class ToDoActivity extends AppCompatActivity {
-
-    private static final String USER_ID_KEY = "com.example.assignmenttracker.userIdKey";
     private static final String TRACKER_ID_KEY = "com.example.assignmenttracker.trackerIdKey";
+    private static final String USER_ID_KEY = "com.example.assignmenttracker.userIdKey";
     private static final String PREFERENCES_KEY = "com.example.assignmenttracker.PREFERENCES_KEY";
     private SharedPreferences preferences = null;
-    private int userId;
-    private int trackerId;
-    private AssignmentTracker tracker;
-    private List<AssignmentTracker> trackers;
-    private AssignmentTrackerDAO assignmentTrackerDAO;
-    private User user;
+    private EditText editAssignmentAssignmentText;
+    private EditText editAssignmentSubjectText;
+    private EditText editAssignmentDateText;
+    private Button editAssignmentUpdateButton;
+    private ActivityEditAssignmentBinding binding;
 
-    public static Intent intentFactory(Context context, int userId) {
-        Log.d("ToDoActivity", "intentFactory CALLED SUCCESSFULLY");
-        Intent intent = new Intent(context, ToDoActivity.class);
-        intent.putExtra(USER_ID_KEY, userId);
-        return intent;
-    }
+    private AssignmentTrackerDAO assignmentTrackerDAO;
+    private int trackerId = 1;
+    private int userId = -1;
+    private AssignmentTracker tracker;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("ToDoActivity", "onCreate CALLED SUCCESSFULLY");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_to_do);
+        setContentView(R.layout.activity_edit_assignment);
 
         getDatabase();
         checkForUser();
 
-        userId = getIntent().getIntExtra(USER_ID_KEY, -1);
-        trackers = assignmentTrackerDAO.getTrackersByUserId(userId);
+        trackerId = getIntent().getIntExtra(TRACKER_ID_KEY, 1);
+        tracker = assignmentTrackerDAO.getTrackerById(trackerId);
+        Log.d("EditAssignmentActivity", "current trackerId= " + trackerId);
+        Log.d("EditAssignmentActivity", "current tracker= " + tracker);
         user = assignmentTrackerDAO.getUserByUserId(userId);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        binding = ActivityEditAssignmentBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        List<Item> items = new ArrayList<Item>();
-        for (int i = 0; i < trackers.size(); i++) {
-            tracker = trackers.get(i);
-            trackerId = tracker.getTrackerId();
-            items.add(new Item(tracker.getAssignment(), tracker.getSubject(), tracker.getDate()));
-        }
+        editAssignmentAssignmentText = binding.editAssignmentAssignmentText;
+        editAssignmentSubjectText = binding.editAssignmentSubjectText;
+        editAssignmentDateText = binding.editAssignmentDateText;
+        editAssignmentUpdateButton = binding.editAssignmentUpdateButton;
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new MyAdapter(getApplicationContext(), items, trackers, userId));
+        editAssignmentAssignmentText.setText(tracker.getAssignment());
+        editAssignmentSubjectText.setText(tracker.getSubject());
+        editAssignmentDateText.setText(tracker.getDate());
+
+        editAssignmentUpdateButton.setOnClickListener(view -> {
+            tracker.setAssignment(editAssignmentAssignmentText.getText().toString());
+            tracker.setSubject(editAssignmentSubjectText.getText().toString());
+            tracker.setDate(editAssignmentDateText.getText().toString());
+            assignmentTrackerDAO.update(tracker);
+            Toast.makeText(this, "Updated Assignment " + editAssignmentAssignmentText, Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void getDatabase() {
-        Log.d("ToDoActivity", "getDatabase CALLED SUCCESSFULLY");
+        Log.d("EditAssignmentActivity", "getDatabase CALLED SUCCESSFULLY");
         assignmentTrackerDAO = Room.databaseBuilder(this, AppDataBase.class, AppDataBase.DATABASE_NAME).allowMainThreadQueries().build().AssignmentTrackerDAO();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.d("ToDoActivity", "onCreateOptionsMenu CALLED SUCCESSFULLY");
+        Log.d("EditAssignmentActivity", "onCreateOptionsMenu CALLED SUCCESSFULLY");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         return true;
@@ -84,12 +89,13 @@ public class ToDoActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Log.d("ToDoActivity", "onOptionsItemSelected CALLED SUCCESSFULLY");
+        Log.d("EditAssignmentActivity", "onOptionsItemSelected CALLED SUCCESSFULLY");
         Intent intent;
         switch (item.getItemId()) {
             case R.id.item0:
                 Toast.makeText(this, "Go Back Selected", Toast.LENGTH_SHORT).show();
-                intent = MainActivity.intentFactory(getApplicationContext(), userId);
+                Log.d("EditAssignmentActivty", "userId=" + userId);
+                intent = ToDoActivity.intentFactory(getApplicationContext(), userId);
                 startActivity(intent);
                 return true;
             case R.id.item1:
@@ -109,7 +115,7 @@ public class ToDoActivity extends AppCompatActivity {
     }
 
     private void logoutUser() {
-        Log.d("ToDoActivity", "logoutUser CALLED SUCCESSFULLY");
+        Log.d("EditAssignmentActivity", "logoutUser CALLED SUCCESSFULLY");
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
 
         alertBuilder.setMessage("Logout");
@@ -128,7 +134,7 @@ public class ToDoActivity extends AppCompatActivity {
     }
 
     private void checkForUser() {
-        Log.d("ToDoActivity", "checkForUser CALLED SUCCESSFULLY");
+        Log.d("EditAssignmentActivity", "checkForUser CALLED SUCCESSFULLY");
         // Do we have a user in the intent?
         userId = getIntent().getIntExtra(USER_ID_KEY, -1);
 
@@ -173,5 +179,4 @@ public class ToDoActivity extends AppCompatActivity {
         Log.d("ToDoActivity", "getPrefs CALLED SUCCESSFULLY");
         preferences = this.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE);
     }
-
 }

@@ -1,10 +1,5 @@
 package com.example.assignmenttracker;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,10 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
+
 import com.example.assignmenttracker.DB.AppDataBase;
 import com.example.assignmenttracker.DB.AssignmentTrackerDAO;
 import com.example.assignmenttracker.databinding.ActivityEditProfileBinding;
-import com.example.assignmenttracker.databinding.ActivityMainBinding;
 
 import java.util.Objects;
 
@@ -46,14 +45,22 @@ public class EditProfileActivity extends AppCompatActivity {
     private SharedPreferences preferences = null;
     private User user;
 
+    public static Intent intentFactory(Context context, int userId) {
+        Log.d("EditProfileActivity", "intentFactory CALLED SUCCESSFULLY");
+        Intent intent = new Intent(context, EditProfileActivity.class);
+        intent.putExtra(USER_ID_KEY, userId);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
         getDatabase();
+        checkForUser();
 
-        userId = getIntent().getIntExtra(USER_ID_KEY, -1);
+//        userId = getIntent().getIntExtra(USER_ID_KEY, -1);
 
         binding = ActivityEditProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -63,7 +70,6 @@ public class EditProfileActivity extends AppCompatActivity {
         editProfileUsernameText = binding.editProfileUsernameText;
         editProfilePasswordText = binding.editProfilePasswordText;
         editProfileUpdateButton = binding.editProfileUpdateButton;
-        editProfileBackButton = binding.editProfileBackButton;
         editProfileDeleteButton = binding.editProfileDeleteButton;
 
         user = assignmentTrackerDAO.getUserByUserId(userId);
@@ -95,31 +101,19 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
-        editProfileBackButton.setOnClickListener(view -> {
-            Intent intent;
-            if (user.isAdmin()) {
-                intent = AdminMainActivity.intentFactory(getApplicationContext(), userId);
-            } else {
-                intent = MainActivity.intentFactory(getApplicationContext(), userId);
-            }
-            startActivity(intent);
-        });
-
-        editProfileDeleteButton.setOnClickListener(view ->  {
+        editProfileDeleteButton.setOnClickListener(view -> {
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
 
             alertBuilder.setMessage("Are you sure you want to delete this profile?");
 
-            alertBuilder.setPositiveButton(getString(R.string.yes),
-                    (dialog, which) -> {
-                        assignmentTrackerDAO.delete(user);
-                        Intent intent = new Intent(EditProfileActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                    });
-            alertBuilder.setNegativeButton(getString(R.string.no),
-                    (dialog, which) -> {
-                        //We don't really need to do anything here.
-                    });
+            alertBuilder.setPositiveButton(getString(R.string.yes), (dialog, which) -> {
+                assignmentTrackerDAO.delete(user);
+                Intent intent = new Intent(EditProfileActivity.this, LoginActivity.class);
+                startActivity(intent);
+            });
+            alertBuilder.setNegativeButton(getString(R.string.no), (dialog, which) -> {
+                //We don't really need to do anything here.
+            });
 
             alertBuilder.create().show();
         });
@@ -127,10 +121,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void getDatabase() {
         Log.d("EditProfileActivity", "getDatabase CALLED SUCCESSFULLY");
-        assignmentTrackerDAO = Room.databaseBuilder(this, AppDataBase.class, AppDataBase.DATABASE_NAME)
-                .allowMainThreadQueries()
-                .build()
-                .AssignmentTrackerDAO();
+        assignmentTrackerDAO = Room.databaseBuilder(this, AppDataBase.class, AppDataBase.DATABASE_NAME).allowMainThreadQueries().build().AssignmentTrackerDAO();
     }
 
     @Override
@@ -144,12 +135,31 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Log.d("EditProfileActivity", "onOptionsItemSelected CALLED SUCCESSFULLY");
+        Intent intent;
         switch (item.getItemId()) {
+            case R.id.item0:
+                Toast.makeText(this, "Go Back Selected", Toast.LENGTH_SHORT).show();
+                if (user.isAdmin()) {
+                    intent = AdminMainActivity.intentFactory(getApplicationContext(), userId);
+                } else {
+                    intent = MainActivity.intentFactory(getApplicationContext(), userId);
+                }
+                startActivity(intent);
+                return true;
             case R.id.item1:
                 Toast.makeText(this, "Edit Profile Selected", Toast.LENGTH_SHORT).show();
+                intent = new Intent(EditProfileActivity.this, EditProfileActivity.class);
+                intent.putExtra(USER_ID_KEY, userId);
+                startActivity(intent);
                 return true;
             case R.id.item2:
                 Toast.makeText(this, "Item 2 Selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.item3:
+                Toast.makeText(this, "To Do List Selected", Toast.LENGTH_SHORT).show();
+                intent = new Intent(EditProfileActivity.this, ToDoActivity.class);
+                intent.putExtra(USER_ID_KEY, userId);
+                startActivity(intent);
                 return true;
             case R.id.item4:
                 Toast.makeText(this, "Logout Selected", Toast.LENGTH_SHORT).show();
@@ -165,21 +175,18 @@ public class EditProfileActivity extends AppCompatActivity {
 
         alertBuilder.setMessage("Logout");
 
-        alertBuilder.setPositiveButton(getString(R.string.yes),
-                (dialog, which) -> {
-                    clearUserFromIntent();
-                    clearUserFromPref();
-                    userId = -1;
-                    checkForUser();
-                });
-        alertBuilder.setNegativeButton(getString(R.string.no),
-                (dialog, which) -> {
-                    //We don't really need to do anything here.
-                });
+        alertBuilder.setPositiveButton(getString(R.string.yes), (dialog, which) -> {
+            clearUserFromIntent();
+            clearUserFromPref();
+            userId = -1;
+            checkForUser();
+        });
+        alertBuilder.setNegativeButton(getString(R.string.no), (dialog, which) -> {
+            //We don't really need to do anything here.
+        });
 
         alertBuilder.create().show();
     }
-
 
     private void checkForUser() {
         Log.d("EditProfileActivity", "checkForUser CALLED SUCCESSFULLY");

@@ -5,19 +5,15 @@ import androidx.room.PrimaryKey;
 
 import com.example.assignmenttracker.DB.AppDataBase;
 
-import java.util.Date;
-
 /**
  * @author Carlos Santiago, Fernando A. Pulido
  * @since April 27, 2023
  * Description: Represents an assignment tracker object.
  */
 
-// @Entity tells Room to treat this class as an entity and create a database table based on it.
-// It includes parameter tableName that specifies the name of the table to be created.
 @Entity(tableName = AppDataBase.ASSIGNMENTTRACKER_TABLE)
 public class AssignmentTracker {
-    // Fields
+    // Field(s)
     @PrimaryKey(autoGenerate = true)
     // @PrimaryKey is used to mark trackerId as the primary key of table.
     private int trackerId;
@@ -34,6 +30,7 @@ public class AssignmentTracker {
         this.date = date;
         this.userId = userId;
     }
+
     // Getters & Setters
     public String getAssignment() {
         return assignment;
@@ -77,6 +74,6 @@ public class AssignmentTracker {
 
     @Override
     public String toString() {
-        return "Assignment:" + assignment + "\nSubject: "+ subject +"\nDue: " + date + "\n\n";
+        return "Assignment:" + assignment + "\nSubject: " + subject + "\nDue: " + date + "\n\n";
     }
 }

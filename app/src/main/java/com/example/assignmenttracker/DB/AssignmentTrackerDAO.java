@@ -36,7 +36,7 @@ public interface AssignmentTrackerDAO {
     // in the database.
 
     @Query("SELECT * FROM " + AppDataBase.ASSIGNMENTTRACKER_TABLE + " WHERE trackerId = :trackerId")
-    List<AssignmentTracker> getTrackerById(int trackerId); // takes integer parameter and returns
+    AssignmentTracker getTrackerById(int trackerId); // takes integer parameter and returns
 
     // list of AssignmentTracker objects
     // with matching trackerId field.

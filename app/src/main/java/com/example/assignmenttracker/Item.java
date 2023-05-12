@@ -14,7 +14,6 @@ public class Item {
     }
 
     // Getters & Setters
-
     public String getAssignment() {
         return assignment;
     }
