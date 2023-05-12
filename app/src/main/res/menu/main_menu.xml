@@ -9,6 +9,9 @@
         android:title="Item 2"
         app:showAsAction="never" />
     <item android:id="@+id/item3"
+        android:title="To Do List"
+        app:showAsAction="never" />
+    <item android:id="@+id/item4"
         android:title="Logout"
         app:showAsAction="never" />
 </menu>

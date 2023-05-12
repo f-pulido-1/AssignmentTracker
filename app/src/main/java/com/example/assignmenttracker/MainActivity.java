@@ -34,14 +34,14 @@ import java.util.List;
  */
 
 public class MainActivity extends AppCompatActivity {
-    // Fields
+    // Field(s)
     private static final String USER_ID_KEY = "com.example.assignmenttracker.userIdKey";
     private static final String PREFERENCES_KEY = "com.example.assignmenttracker.PREFERENCES_KEY";
-    private DatePickerDialog datePickerDialog;
-    private Button mainDateButton;
     User user;
     String firstName;
     String lastName;
+    private DatePickerDialog datePickerDialog;
+    private Button mainDateButton;
     private ActivityMainBinding binding;
     private TextView mainDisplay;
     private EditText assignment;
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("MainActivity", "onCreate CALLED SUCCESSFULLY");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main); // The main layout file (activity_main.xml) is inflated
+        setContentView(R.layout.activity_main);
 
         getDatabase();
         checkForUser();
@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        mainDisplay = binding.mainAssignmentTrackerDisplay;
         assignment = binding.mainAssignmentEditText;
         subject = binding.mainSubjectEditText;
         submit = binding.mainSubmitButton;
@@ -84,11 +83,8 @@ public class MainActivity extends AppCompatActivity {
 
         displayWelcomeMessage();
 
-        refreshDisplay();
-
         submit.setOnClickListener(view -> {
             submitAssignmentTracker();
-            refreshDisplay();
         });
     }
 
@@ -98,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         int month = cal.get(Calendar.MONTH);
         month = month + 1;
         int day = cal.get(Calendar.DAY_OF_MONTH);
-        return makeDateString(day,month,year);
+        return makeDateString(day, month, year);
     }
 
     private void initDatePicker() {
@@ -120,33 +116,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String getMonthFormat(int month) {
-        if(month == 1)
+        if (month == 1)
             return "JAN";
-        if(month == 2)
+        if (month == 2)
             return "FEB";
-        if(month == 3)
+        if (month == 3)
             return "MAR";
-        if(month == 4)
+        if (month == 4)
             return "APR";
-        if(month == 5)
+        if (month == 5)
             return "MAY";
-        if(month == 6)
+        if (month == 6)
             return "JUN";
-        if(month == 7)
+        if (month == 7)
             return "JUL";
-        if(month == 8)
+        if (month == 8)
             return "AUG";
-        if(month == 9)
+        if (month == 9)
             return "SEP";
-        if(month == 10)
+        if (month == 10)
             return "OCT";
-        if(month == 11)
+        if (month == 11)
             return "NOV";
-        if(month == 12)
+        if (month == 12)
             return "DEC";
         return "JAN";
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -159,10 +154,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Log.d("MainActivity", "onOptionsItemSelected CALLED SUCCESSFULLY");
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.item1:
                 Toast.makeText(this, "Edit Profile Selected", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
+                intent = new Intent(MainActivity.this, EditProfileActivity.class);
                 intent.putExtra(USER_ID_KEY, userId);
                 startActivity(intent);
                 return true;
@@ -170,6 +166,12 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Item 2 Selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.item3:
+                Toast.makeText(this, "To Do List Selected", Toast.LENGTH_SHORT).show();
+                intent = new Intent(MainActivity.this, ToDoActivity.class);
+                intent.putExtra(USER_ID_KEY, userId);
+                startActivity(intent);
+                return true;
+            case R.id.item4:
                 Toast.makeText(this, "Logout Selected", Toast.LENGTH_SHORT).show();
                 logoutUser();
                 return true;
@@ -183,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
         if (user != null) {
             firstName = user.getFirstName();
             lastName = user.getLastName();
-            mainWelcomeMessage.setText("Hello, " + firstName + "! Enter your assignments below");
+            mainWelcomeMessage.setText("Hello, " + firstName + "!\nEnter your assignments below");
         }
     }
 
@@ -194,21 +196,22 @@ public class MainActivity extends AppCompatActivity {
         String dateValue = mainDateButton.getText().toString();
         AssignmentTracker tracker = new AssignmentTracker(assignmentText, subjectText, dateValue, userId);
         assignmentTrackerDAO.insert(tracker);
+        Toast.makeText(this, "Successfully added " + assignmentText + " to your To Do List", Toast.LENGTH_SHORT).show();
     }
 
-    private void refreshDisplay() {
-        Log.d("MainActivity", "refreshDisplay CALLED SUCCESSFULLY");
-        assignmentTrackerList = assignmentTrackerDAO.getTrackersByUserId(userId);
-        if (!assignmentTrackerList.isEmpty()) {
-            StringBuilder sb = new StringBuilder();
-            for (AssignmentTracker tracker : assignmentTrackerList) {
-                sb.append(tracker.toString());
-            }
-            mainDisplay.setText(sb.toString());
-        } else {
-            mainDisplay.setText(R.string.nothing_in_tracker_message);
-        }
-    }
+//    private void refreshDisplay() {
+//        Log.d("MainActivity", "refreshDisplay CALLED SUCCESSFULLY");
+//        assignmentTrackerList = assignmentTrackerDAO.getTrackersByUserId(userId);
+//        if (!assignmentTrackerList.isEmpty()) {
+//            StringBuilder sb = new StringBuilder();
+//            for (AssignmentTracker tracker : assignmentTrackerList) {
+//                sb.append(tracker.toString());
+//            }
+//            mainDisplay.setText(sb.toString());
+//        } else {
+//            mainDisplay.setText(R.string.nothing_in_tracker_message);
+//        }
+//    }
 
     private void checkForUser() {
         Log.d("MainActivity", "checkForUser CALLED SUCCESSFULLY");

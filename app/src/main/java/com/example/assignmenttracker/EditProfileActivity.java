@@ -151,7 +151,7 @@ public class EditProfileActivity extends AppCompatActivity {
             case R.id.item2:
                 Toast.makeText(this, "Item 2 Selected", Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.item3:
+            case R.id.item4:
                 Toast.makeText(this, "Logout Selected", Toast.LENGTH_SHORT).show();
                 logoutUser();
                 return true;

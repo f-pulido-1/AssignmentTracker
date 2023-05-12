@@ -58,19 +58,6 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/mainAssignmentTrackerDisplay"
-        android:layout_width="311dp"
-        android:layout_height="207dp"
-        android:layout_marginTop="12dp"
-        android:text="It looks like you have no assignments"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainSubmitButton" />
-
-    <TextView
         android:id="@+id/mainWelcomeMessage"
         android:layout_width="186dp"
         android:layout_height="102dp"
