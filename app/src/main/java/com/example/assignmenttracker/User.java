@@ -5,9 +5,6 @@ import androidx.room.PrimaryKey;
 
 import com.example.assignmenttracker.DB.AppDataBase;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author Carlos Santiago, Fernando A. Pulido
  * @since April 29, 2023
@@ -87,9 +84,6 @@ public class User {
     // Other
     @Override
     public String toString() {
-        return "User#" + userId + ": " + username +
-                "\nFirst Name: " + firstName +
-                "\nLast Name: " + lastName +
-                "\nisAdmin: " + isAdmin + "\n\n";
+        return "User#" + userId + ": " + username + "\nFirst Name: " + firstName + "\nLast Name: " + lastName + "\nisAdmin: " + isAdmin + "\n\n";
     }
 }

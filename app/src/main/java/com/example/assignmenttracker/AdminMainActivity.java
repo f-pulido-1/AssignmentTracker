@@ -1,10 +1,5 @@
 package com.example.assignmenttracker;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +11,11 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import com.example.assignmenttracker.DB.AppDataBase;
 import com.example.assignmenttracker.DB.AssignmentTrackerDAO;
@@ -29,7 +29,7 @@ import com.example.assignmenttracker.databinding.ActivityAdminMainBinding;
 
 public class AdminMainActivity extends AppCompatActivity {
 
-    // Fields
+    // Field(s)
     private static final String USER_ID_KEY = "com.example.assignmenttracker.userIdKey";
     private static final String PREFERENCES_KEY = "com.example.assignmenttracker.PREFERENCES_KEY";
     private ActivityAdminMainBinding binding;
@@ -71,9 +71,9 @@ public class AdminMainActivity extends AppCompatActivity {
         viewAllStudentsButton.setOnClickListener(view -> {
             Log.d("AdminMainActivity", "STARTING StudentViewerActivity");
             Log.d("AdminMainActivity", "Username: " + adminUser.getUsername() + "\nFirst: " + adminUser.getFirstName());
-            Intent intent = new Intent(AdminMainActivity.this, StudentViewerActivity.class);
+            Intent intent = StudentViewerActivity.intentFactory(getApplicationContext(), userId);
             // TODO: fix error connected to StudentViewerActivity
-            intent.putExtra(USER_ID_KEY, userId);
+//            intent.putExtra(USER_ID_KEY, userId);
             startActivity(intent);
         });
 
@@ -95,7 +95,7 @@ public class AdminMainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.item1:
                 Toast.makeText(this, "Edit Profile Selected", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(AdminMainActivity.this, EditProfileActivity.class);
+                Intent intent = EditProfileActivity.intentFactory(getApplicationContext(), userId);
                 intent.putExtra(USER_ID_KEY, userId);
                 startActivity(intent);
                 return true;
@@ -112,10 +112,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
     private void getDatabase() {
         Log.d("AdminMainActivity", "getDatabase CALLED SUCCESSFULLY");
-        assignmentTrackerDAO = Room.databaseBuilder(this, AppDataBase.class, AppDataBase.DATABASE_NAME)
-                .allowMainThreadQueries()
-                .build()
-                .AssignmentTrackerDAO();
+        assignmentTrackerDAO = Room.databaseBuilder(this, AppDataBase.class, AppDataBase.DATABASE_NAME).allowMainThreadQueries().build().AssignmentTrackerDAO();
     }
 
     private void displayWelcomeMessage() {
@@ -133,17 +130,15 @@ public class AdminMainActivity extends AppCompatActivity {
 
         alertBuilder.setMessage("Logout");
 
-        alertBuilder.setPositiveButton(getString(R.string.yes),
-                (dialog, which) -> {
-                    clearUserFromIntent();
-                    clearUserFromPref();
-                    userId = -1;
-                    checkForUser();
-                });
-        alertBuilder.setNegativeButton(getString(R.string.no),
-                (dialog, which) -> {
-                    //We don't really need to do anything here.
-                });
+        alertBuilder.setPositiveButton(getString(R.string.yes), (dialog, which) -> {
+            clearUserFromIntent();
+            clearUserFromPref();
+            userId = -1;
+            checkForUser();
+        });
+        alertBuilder.setNegativeButton(getString(R.string.no), (dialog, which) -> {
+            //We don't really need to do anything here.
+        });
 
         alertBuilder.create().show();
     }
