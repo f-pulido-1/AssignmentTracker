@@ -6,9 +6,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
+
+import com.example.assignmenttracker.DB.AppDataBase;
+import com.example.assignmenttracker.DB.AssignmentTrackerDAO;
 
 import java.util.List;
 
@@ -20,12 +25,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
     Context context;
     List<Item> items;
     private int userId;
+    private AssignmentTrackerDAO assignmentTrackerDAO;
 
     public MyAdapter(Context context, List<Item> items, List<AssignmentTracker> trackers, int userId) {
         this.context = context;
         this.items = items;
         this.trackers = trackers;
         this.userId = userId;
+        this.assignmentTrackerDAO = Room.databaseBuilder(context, AppDataBase.class, AppDataBase.DATABASE_NAME).allowMainThreadQueries().build().AssignmentTrackerDAO();
     }
 
     @NonNull
@@ -54,6 +61,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
         holder.toDoDoneButton.setOnClickListener(view -> {
             // Handle done button click
+            AssignmentTracker tracker = assignmentTrackerDAO.getTrackerById(currentTrackerId);
+            assignmentTrackerDAO.delete(tracker);
+            Toast.makeText(view.getContext(), "Assignment completed!", Toast.LENGTH_SHORT).show();
+            Intent intent = ToDoActivity.intentFactory(view.getContext(), userId);
+            view.getContext().startActivity(intent);
         });
     }
 

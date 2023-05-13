@@ -1,5 +1,6 @@
 package com.example.assignmenttracker;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -21,6 +23,8 @@ import com.example.assignmenttracker.DB.AppDataBase;
 import com.example.assignmenttracker.DB.AssignmentTrackerDAO;
 import com.example.assignmenttracker.databinding.ActivityEditAssignmentBinding;
 
+import java.util.Calendar;
+
 public class EditAssignmentActivity extends AppCompatActivity {
 
     private static final String TRACKER_ID_KEY = "com.example.assignmenttracker.trackerIdKey";
@@ -29,8 +33,10 @@ public class EditAssignmentActivity extends AppCompatActivity {
     private SharedPreferences preferences = null;
     private EditText editAssignmentAssignmentText;
     private EditText editAssignmentSubjectText;
-    private EditText editAssignmentDateText;
+    private Button editAssignmentDateButton;
+    private DatePickerDialog datePickerDialog;
     private Button editAssignmentUpdateButton;
+    private Button getEditAssignmentDeleteButton;
     private ActivityEditAssignmentBinding binding;
 
     private AssignmentTrackerDAO assignmentTrackerDAO;
@@ -46,6 +52,7 @@ public class EditAssignmentActivity extends AppCompatActivity {
 
         getDatabase();
         checkForUser();
+        initDatePicker();
 
         trackerId = getIntent().getIntExtra(TRACKER_ID_KEY, 1);
         tracker = assignmentTrackerDAO.getTrackerById(trackerId);
@@ -58,22 +65,65 @@ public class EditAssignmentActivity extends AppCompatActivity {
 
         editAssignmentAssignmentText = binding.editAssignmentAssignmentText;
         editAssignmentSubjectText = binding.editAssignmentSubjectText;
-        editAssignmentDateText = binding.editAssignmentDateText;
+        editAssignmentDateButton = binding.editAssignmentDateButton;
         editAssignmentUpdateButton = binding.editAssignmentUpdateButton;
+        getEditAssignmentDeleteButton = binding.editAssignmentDeleteButton;
 
         editAssignmentAssignmentText.setText(tracker.getAssignment());
         editAssignmentSubjectText.setText(tracker.getSubject());
-        editAssignmentDateText.setText(tracker.getDate());
+        editAssignmentDateButton.setText(tracker.getDate());
 
         editAssignmentUpdateButton.setOnClickListener(view -> {
             tracker.setAssignment(editAssignmentAssignmentText.getText().toString());
             tracker.setSubject(editAssignmentSubjectText.getText().toString());
-            tracker.setDate(editAssignmentDateText.getText().toString());
+            tracker.setDate(editAssignmentDateButton.getText().toString());
             assignmentTrackerDAO.update(tracker);
-            Toast.makeText(this, "Updated Assignment " + editAssignmentAssignmentText, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Updated Assignment " + editAssignmentAssignmentText.getText(), Toast.LENGTH_SHORT).show();
+            Intent intent = ToDoActivity.intentFactory(getApplicationContext(), userId);
+            startActivity(intent);
+        });
+
+        getEditAssignmentDeleteButton.setOnClickListener(view -> {
+            assignmentTrackerDAO.delete(tracker);
+            Toast.makeText(this, "Deleted Assignment " + editAssignmentAssignmentText.getText(), Toast.LENGTH_SHORT).show();
+            Intent intent = ToDoActivity.intentFactory(getApplicationContext(), userId);
+            startActivity(intent);
         });
     }
 
+    private void initDatePicker() {
+        DatePickerDialog.OnDateSetListener dateSetListener = (datePicker, year, month, day) -> {
+            month = month + 1;
+            String date = makeDateString(day, month, year);
+            editAssignmentDateButton.setText(date);
+        };
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        datePickerDialog = new DatePickerDialog(this, dateSetListener, year, month, day);
+    }
+
+    private String makeDateString(int day, int month, int year) {
+        return getMonthFormat(month) + " " + day + " " + year;
+    }
+
+    private String getMonthFormat(int month) {
+        if (month == 1) return "JAN";
+        if (month == 2) return "FEB";
+        if (month == 3) return "MAR";
+        if (month == 4) return "APR";
+        if (month == 5) return "MAY";
+        if (month == 6) return "JUN";
+        if (month == 7) return "JUL";
+        if (month == 8) return "AUG";
+        if (month == 9) return "SEP";
+        if (month == 10) return "OCT";
+        if (month == 11) return "NOV";
+        if (month == 12) return "DEC";
+        return "JAN";
+    }
     private void getDatabase() {
         Log.d("EditAssignmentActivity", "getDatabase CALLED SUCCESSFULLY");
         assignmentTrackerDAO = Room.databaseBuilder(this, AppDataBase.class, AppDataBase.DATABASE_NAME).allowMainThreadQueries().build().AssignmentTrackerDAO();
@@ -178,5 +228,8 @@ public class EditAssignmentActivity extends AppCompatActivity {
     private void getPrefs() {
         Log.d("ToDoActivity", "getPrefs CALLED SUCCESSFULLY");
         preferences = this.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE);
+    }
+    public void openDatePicker(View view) {
+        datePickerDialog.show();
     }
 }

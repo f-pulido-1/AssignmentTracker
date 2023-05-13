@@ -6,6 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".EditAssignmentActivity">
 
+    <Button
+        android:id="@+id/editAssignmentDateButton"
+        style="?android:spinnerStyle"
+        android:layout_width="215dp"
+        android:layout_height="53dp"
+        android:layout_marginBottom="324dp"
+        android:hint="JAN 01 2023"
+        android:onClick="openDatePicker"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editAssignmentSubjectText"
+        app:layout_constraintVertical_bias="0.583" />
+
     <EditText
         android:id="@+id/editAssignmentAssignmentText"
         android:layout_width="wrap_content"
@@ -32,27 +49,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editAssignmentAssignmentText" />
 
-    <EditText
-        android:id="@+id/editAssignmentDateText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Due Date"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editAssignmentSubjectText"
-        app:layout_constraintVertical_bias="0.067" />
-
     <Button
         android:id="@+id/editAssignmentUpdateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="188dp"
+        android:backgroundTint="@android:color/holo_green_dark"
         android:text="Update"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editAssignmentDateText"
-        app:layout_constraintVertical_bias="0.159"
-        tools:layout_editor_absoluteX="158dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editAssignmentDateButton" />
+
+    <Button
+        android:id="@+id/editAssignmentDeleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#D64343"
+        android:text="Delete"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editAssignmentUpdateButton"
+        app:layout_constraintVertical_bias="0.168" />
 </androidx.constraintlayout.widget.ConstraintLayout>
