@@ -54,7 +54,7 @@ public class AttendanceActivity extends AppCompatActivity {
         ImageButton back = toolbar.findViewById(R.id.back);
         ImageButton save = toolbar.findViewById(R.id.save);
 
-        title.setText("Attendance App");
+        title.setText("Attendance View");
         subtitle.setVisibility(View.GONE);
         back.setVisibility(View.INVISIBLE);
         save.setVisibility(View.INVISIBLE);
