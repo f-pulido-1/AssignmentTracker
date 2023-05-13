@@ -14,12 +14,12 @@ public class Status {
     private int id;
 
     private int studentId;
-    private Date date;
+    private String date;
     private Character status;
 
 //    Constructor
 
-    public Status(int id, int studentId, Date date, Character status) {
+    public Status(int id, int studentId, String date, Character status) {
         this.id = id;
         this.studentId = studentId;
         this.date = date;
@@ -44,11 +44,11 @@ public class Status {
         this.studentId = studentId;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

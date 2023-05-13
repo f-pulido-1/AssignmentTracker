@@ -196,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
             User defaultUser = new User("Mike", "Wazowski", "testuser1", "testuser1", false);
             User altUser = new User("James", "Sullivan", "admin2", "admin2", true);
             assignmentTrackerDAO.insert(defaultUser, altUser);
+            Log.d("MainActivity", "SHOULD HAVE INSERTED DEFAULTS");
         }
         // Store the user ID in the preferences
         // SharedPreferences.Editor editor = this.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE).edit();
