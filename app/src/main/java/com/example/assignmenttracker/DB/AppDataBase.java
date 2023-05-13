@@ -22,7 +22,7 @@ import com.example.assignmenttracker.User;
 // Declaration specifies the entities and version of the database.
 @Database(entities = {User.class, AssignmentTracker.class,
                         Attendance.class, Classrooms.class,
-                        Student.class, Status.class}, version = 10)
+                        Student.class, Status.class}, version = 11)
 public abstract class AppDataBase extends RoomDatabase {
     // Fields - Contains the database name, table names, and instance of the AppDataBase
     public static final String DATABASE_NAME = "AssignmentTracker.db";
