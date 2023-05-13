@@ -1,10 +1,5 @@
 package com.example.assignmenttracker;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +12,11 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import com.example.assignmenttracker.DB.AppDataBase;
 import com.example.assignmenttracker.DB.AssignmentTrackerDAO;
@@ -43,6 +43,12 @@ public class StudentViewerActivity extends AppCompatActivity {
     private List<User> userList;
     private int adminUserId = -1;
 
+    public static Intent intentFactory(Context context, int userId) {
+        Log.d("StudentViewActivity", "intentFactory CALLED SUCCESSFULLY");
+        Intent intent = new Intent(context, StudentViewerActivity.class);
+        intent.putExtra(USER_ID_KEY, userId);
+        return intent;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,10 +102,7 @@ public class StudentViewerActivity extends AppCompatActivity {
     }
 
     private void getDatabase() {
-        assignmentTrackerDAO = Room.databaseBuilder(this, AppDataBase.class, AppDataBase.DATABASE_NAME)
-                .allowMainThreadQueries()
-                .build()
-                .AssignmentTrackerDAO();
+        assignmentTrackerDAO = Room.databaseBuilder(this, AppDataBase.class, AppDataBase.DATABASE_NAME).allowMainThreadQueries().build().AssignmentTrackerDAO();
     }
 
     private void refreshDisplay() {
@@ -115,23 +118,22 @@ public class StudentViewerActivity extends AppCompatActivity {
         }
         mainStudentViewerTextView.setMovementMethod(new ScrollingMovementMethod());
     }
+
     private void logoutUser() {
         Log.d("AdminMainActivity", "logoutUser CALLED SUCCESSFULLY");
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
 
         alertBuilder.setMessage("Logout");
 
-        alertBuilder.setPositiveButton(getString(R.string.yes),
-                (dialog, which) -> {
-                    clearUserFromIntent();
-                    clearUserFromPref();
-                    userId = -1;
-                    checkForUser();
-                });
-        alertBuilder.setNegativeButton(getString(R.string.no),
-                (dialog, which) -> {
-                    //We don't really need to do anything here.
-                });
+        alertBuilder.setPositiveButton(getString(R.string.yes), (dialog, which) -> {
+            clearUserFromIntent();
+            clearUserFromPref();
+            userId = -1;
+            checkForUser();
+        });
+        alertBuilder.setNegativeButton(getString(R.string.no), (dialog, which) -> {
+            //We don't really need to do anything here.
+        });
 
         alertBuilder.create().show();
     }

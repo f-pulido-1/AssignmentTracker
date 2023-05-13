@@ -11,24 +11,23 @@ import com.example.assignmenttracker.DB.AppDataBase;
  * Description: Represents an assignment tracker object.
  */
 
-// @Entity tells Room to treat this class as an entity and create a database table based on it.
-// It includes parameter tableName that specifies the name of the table to be created.
 @Entity(tableName = AppDataBase.ASSIGNMENTTRACKER_TABLE)
 public class AssignmentTracker {
-    // Fields
+    // Field(s)
     @PrimaryKey(autoGenerate = true)
     // @PrimaryKey is used to mark trackerId as the primary key of table.
     private int trackerId;
 
     private String assignment;
-    private double score;
+    private String subject;
+    private String date;
     private int userId;
 
-
     // Constructor(s)
-    public AssignmentTracker(String assignment, double score, int userId) {
+    public AssignmentTracker(String assignment, String subject, String date, int userId) {
         this.assignment = assignment;
-        this.score = score;
+        this.subject = subject;
+        this.date = date;
         this.userId = userId;
     }
 
@@ -41,12 +40,20 @@ public class AssignmentTracker {
         this.assignment = assignment;
     }
 
-    public double getScore() {
-        return score;
+    public String getSubject() {
+        return subject;
     }
 
-    public void setScore(double score) {
-        this.score = score;
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public int getTrackerId() {
@@ -67,6 +74,6 @@ public class AssignmentTracker {
 
     @Override
     public String toString() {
-        return "Assignment:" + assignment + "\nScore: " + score + "\n\n";
+        return "Assignment:" + assignment + "\nSubject: " + subject + "\nDue: " + date + "\n\n";
     }
 }

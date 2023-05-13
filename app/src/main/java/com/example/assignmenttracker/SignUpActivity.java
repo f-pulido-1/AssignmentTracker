@@ -1,22 +1,20 @@
 package com.example.assignmenttracker;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
+
 import com.example.assignmenttracker.DB.AppDataBase;
 import com.example.assignmenttracker.DB.AssignmentTrackerDAO;
-import com.example.assignmenttracker.databinding.ActivityMainBinding;
 import com.example.assignmenttracker.databinding.ActivitySignUpBinding;
 
 /**
@@ -37,8 +35,13 @@ public class SignUpActivity extends AppCompatActivity {
     EditText password;
     EditText passwordConfirm;
     AssignmentTrackerDAO assignmentTrackerDAO;
-    private int userId = -1;
+    private final int userId = -1;
 
+    public static Intent intentFactory(Context context) {
+        Log.d("SignUpActivity", "intentFactory CALLED SUCCESSFULLY");
+        Intent intent = new Intent(context, SignUpActivity.class);
+        return intent;
+    }
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,24 +78,20 @@ public class SignUpActivity extends AppCompatActivity {
                 User newUser = new User(firstNameValue, lastNameValue, usernameValue, passwordValue, false);
                 assignmentTrackerDAO.insert(newUser);
 
-                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                Intent intent = LoginActivity.intentFactory(getApplicationContext());
                 startActivity(intent); // Actually starts the activity
                 finish();
             }
         });
 
         textViewLogIn.setOnClickListener(view -> {
-            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+            Intent intent = LoginActivity.intentFactory(getApplicationContext());
             startActivity(intent);
             finish();
         });
     }
 
     private void getDatabase() {
-        assignmentTrackerDAO = Room.databaseBuilder(this, AppDataBase.class, AppDataBase.DATABASE_NAME)
-                .allowMainThreadQueries()
-                .fallbackToDestructiveMigration()
-                .build()
-                .AssignmentTrackerDAO();
+        assignmentTrackerDAO = Room.databaseBuilder(this, AppDataBase.class, AppDataBase.DATABASE_NAME).allowMainThreadQueries().fallbackToDestructiveMigration().build().AssignmentTrackerDAO();
     }
 }

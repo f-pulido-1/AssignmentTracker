@@ -79,4 +79,10 @@ dependencies {
     def room_version = "2.5.1"
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    // For gif
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.23'
+
+    // For recycler view
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 }
