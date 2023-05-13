@@ -8,6 +8,9 @@ import androidx.room.Update;
 
 import com.example.assignmenttracker.AssignmentTracker;
 import com.example.assignmenttracker.Attendance;
+import com.example.assignmenttracker.Classrooms;
+import com.example.assignmenttracker.Status;
+import com.example.assignmenttracker.Student;
 import com.example.assignmenttracker.User;
 
 import java.util.List;
@@ -74,5 +77,68 @@ public interface AssignmentTrackerDAO {
 
     @Query("SELECT * FROM " + AppDataBase.ATTENDANCE_TABLE + " WHERE attendanceId = :attendanceId")
     Attendance getAttendanceByAttendanceId(int attendanceId);
+
+
+//    CLASSROOMS DATABASE DAO
+    @Insert
+    void insert(Classrooms... classes);
+
+    @Update
+    void update(Classrooms... classes);
+
+    @Delete
+    void delete(Classrooms classes);
+
+    @Query("SELECT * FROM " + AppDataBase.CLASSROOMS_TABLE + " WHERE classId = :classId")
+    Classrooms getRoomByClassId(int classId);
+
+    @Query("SELECT * FROM " + AppDataBase.CLASSROOMS_TABLE + " WHERE className = :className")
+    List<Classrooms> getRoomsByClassName(String className);
+
+    @Query("SELECT * FROM " + AppDataBase.CLASSROOMS_TABLE + " WHERE subjectName = :subjectName")
+    List<Classrooms> getRoomsBySubjectName(String subjectName);
+
+
+//    STUDENTS DATABASE DAO
+    @Insert
+    void insert(Student... students);
+
+    @Update
+    void update(Student... students);
+
+    @Delete
+    void delete(Student student);
+
+    @Query("SELECT * FROM " + AppDataBase.STUDENTS_TABLE + " WHERE studentId = :studentId")
+    Student getStudentById(int studentId);
+
+    @Query("SELECT * FROM " + AppDataBase.STUDENTS_TABLE + " WHERE classId = :classId")
+    List<Student> getStudentsByClassId(int classId);
+
+    @Query("SELECT * FROM " + AppDataBase.STUDENTS_TABLE + " WHERE roll = :roll")
+    List<Student> getStudentsByRoll(String roll);
+
+    @Query("SELECT * FROM " + AppDataBase.STUDENTS_TABLE + " WHERE studentName = :studentName")
+    List<Student> getStudentsByName(String studentName);
+
+
+//    STATUS TABLE
+    @Insert
+    void insert(Status... statuses);
+
+    @Update
+    void update(Status... statuses);
+
+    @Delete
+    void delete(Status status);
+
+    @Query("SELECT * FROM " + AppDataBase.STATUS_TABLE + " WHERE studentId = :studentId")
+    Status getStatusByStudentId(int studentId);
+
+    @Query("SELECT * FROM " + AppDataBase.STATUS_TABLE + " WHERE date = :date")
+    List<Status> getStatusesByDate(String date);
+
+    @Query("SELECT * FROM " + AppDataBase.STATUS_TABLE + " WHERE status = :status")
+    List<Status> getStatusesByStatus(String status);
 
 }

@@ -2,6 +2,7 @@ package com.example.assignmenttracker;
 //TODO: Check if I need to make superclass: DialogFragment
 
 import android.app.Dialog;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 public class MyDialog extends DialogFragment {
-
     public static final String CLASS_ADD_DIALOG = "addClass";
     public static final String STUDENT_ADD_DIALOG = "addStudent";
 
@@ -33,6 +33,8 @@ public class MyDialog extends DialogFragment {
         Dialog dialog = null;
         if(getTag().equals(CLASS_ADD_DIALOG))dialog = getAddClassDialog();
         if(getTag().equals(STUDENT_ADD_DIALOG))dialog = getAddStudentDialog();
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         return dialog;
     }
 
