@@ -52,7 +52,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
         int currentTrackerId = trackers.get(position).getTrackerId();
 
         holder.toDoEditButton.setOnClickListener(view -> {
-            Intent intent = new Intent(view.getContext(), EditAssignmentActivity.class);
+            Intent intent = EditAssignmentActivity.intentFactory(view.getContext(), userId);
             Log.d("MyAdapter", "EDIT BUTTON CLICKED, trackerId=" + currentTrackerId);
             intent.putExtra(TRACKER_ID_KEY, currentTrackerId);
             intent.putExtra(USER_ID_KEY, userId);

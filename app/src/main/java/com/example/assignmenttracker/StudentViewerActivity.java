@@ -43,6 +43,12 @@ public class StudentViewerActivity extends AppCompatActivity {
     private List<User> userList;
     private int adminUserId = -1;
 
+    public static Intent intentFactory(Context context, int userId) {
+        Log.d("StudentViewActivity", "intentFactory CALLED SUCCESSFULLY");
+        Intent intent = new Intent(context, StudentViewerActivity.class);
+        intent.putExtra(USER_ID_KEY, userId);
+        return intent;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

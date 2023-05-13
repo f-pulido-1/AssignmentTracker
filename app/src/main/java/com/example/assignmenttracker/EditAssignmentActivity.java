@@ -45,6 +45,13 @@ public class EditAssignmentActivity extends AppCompatActivity {
     private AssignmentTracker tracker;
     private User user;
 
+    public static Intent intentFactory(Context context, int userId) {
+        Log.d("EditAssignmentActivity", "intentFactory CALLED SUCCESSFULLY");
+        Intent intent = new Intent(context, EditAssignmentActivity.class);
+        intent.putExtra(USER_ID_KEY, userId);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,7 +151,7 @@ public class EditAssignmentActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.item0:
                 Toast.makeText(this, "Go Back Selected", Toast.LENGTH_SHORT).show();
-                Log.d("EditAssignmentActivty", "userId=" + userId);
+                Log.d("EditAssignmentActivity", "userId=" + userId);
                 intent = ToDoActivity.intentFactory(getApplicationContext(), userId);
                 startActivity(intent);
                 return true;

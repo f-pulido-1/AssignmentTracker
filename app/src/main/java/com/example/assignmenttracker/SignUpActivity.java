@@ -1,8 +1,10 @@
 package com.example.assignmenttracker;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -35,6 +37,11 @@ public class SignUpActivity extends AppCompatActivity {
     AssignmentTrackerDAO assignmentTrackerDAO;
     private final int userId = -1;
 
+    public static Intent intentFactory(Context context) {
+        Log.d("SignUpActivity", "intentFactory CALLED SUCCESSFULLY");
+        Intent intent = new Intent(context, SignUpActivity.class);
+        return intent;
+    }
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,14 +78,14 @@ public class SignUpActivity extends AppCompatActivity {
                 User newUser = new User(firstNameValue, lastNameValue, usernameValue, passwordValue, false);
                 assignmentTrackerDAO.insert(newUser);
 
-                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                Intent intent = LoginActivity.intentFactory(getApplicationContext());
                 startActivity(intent); // Actually starts the activity
                 finish();
             }
         });
 
         textViewLogIn.setOnClickListener(view -> {
-            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+            Intent intent = LoginActivity.intentFactory(getApplicationContext());
             startActivity(intent);
             finish();
         });

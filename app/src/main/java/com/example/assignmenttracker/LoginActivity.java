@@ -25,7 +25,6 @@ import com.example.assignmenttracker.DB.AssignmentTrackerDAO;
 public class LoginActivity extends AppCompatActivity {
 
     // Fields
-    private static final String USER_ID_KEY = "com.example.assignmenttracker.userIdKey";
     EditText usernameField;
     EditText passwordField;
     Button button;
@@ -64,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (!validatePassword()) {
                     Toast.makeText(LoginActivity.this, "Invalid password", Toast.LENGTH_SHORT).show();
                 } else {
-                    // take user to MainActivty OR AdminMainActivity, depending on their isAdmin value
+                    // take user to MainActivity OR AdminMainActivity, depending on their isAdmin value
                     Intent intent;
                     if (user.isAdmin()) {
                         intent = AdminMainActivity.intentFactory(getApplicationContext(), user.getUserId());
@@ -79,8 +78,7 @@ public class LoginActivity extends AppCompatActivity {
         // When txtSignIn is clicked, the SignUpActivity launched
         txtSignIn.setOnClickListener(view -> {
             Log.d("LoginActivity", "txtSignInButton setOnCLickListener ACTIVATED");
-            Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-//            intent.putExtra(USER_ID_KEY, user.getUserId());
+            Intent intent = SignUpActivity.intentFactory(getApplicationContext());
             startActivity(intent);
         });
     }

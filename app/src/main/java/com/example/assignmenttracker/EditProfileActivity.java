@@ -40,7 +40,6 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText editProfileUsernameText;
     private EditText editProfilePasswordText;
     private Button editProfileUpdateButton;
-    private Button editProfileBackButton;
     private Button editProfileDeleteButton;
     private SharedPreferences preferences = null;
     private User user;
@@ -59,8 +58,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
         getDatabase();
         checkForUser();
-
-//        userId = getIntent().getIntExtra(USER_ID_KEY, -1);
 
         binding = ActivityEditProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -96,7 +93,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 user.setPassword(passwordValue);
                 assignmentTrackerDAO.update(user);
                 Toast.makeText(getApplicationContext(), "Your profile has updated", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(EditProfileActivity.this, MainActivity.class);
+                Intent intent = LoginActivity.intentFactory(getApplicationContext());
                 startActivity(intent);
             }
         });
@@ -108,7 +105,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
             alertBuilder.setPositiveButton(getString(R.string.yes), (dialog, which) -> {
                 assignmentTrackerDAO.delete(user);
-                Intent intent = new Intent(EditProfileActivity.this, LoginActivity.class);
+                Intent intent = LoginActivity.intentFactory(getApplicationContext());
                 startActivity(intent);
             });
             alertBuilder.setNegativeButton(getString(R.string.no), (dialog, which) -> {
@@ -148,7 +145,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 return true;
             case R.id.item1:
                 Toast.makeText(this, "Edit Profile Selected", Toast.LENGTH_SHORT).show();
-                intent = new Intent(EditProfileActivity.this, EditProfileActivity.class);
+                intent = EditProfileActivity.intentFactory(getApplicationContext(), userId);
                 intent.putExtra(USER_ID_KEY, userId);
                 startActivity(intent);
                 return true;
@@ -157,7 +154,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 return true;
             case R.id.item3:
                 Toast.makeText(this, "To Do List Selected", Toast.LENGTH_SHORT).show();
-                intent = new Intent(EditProfileActivity.this, ToDoActivity.class);
+                intent = ToDoActivity.intentFactory(getApplicationContext(), userId);
                 intent.putExtra(USER_ID_KEY, userId);
                 startActivity(intent);
                 return true;

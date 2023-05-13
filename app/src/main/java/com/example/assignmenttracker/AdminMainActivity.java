@@ -71,9 +71,9 @@ public class AdminMainActivity extends AppCompatActivity {
         viewAllStudentsButton.setOnClickListener(view -> {
             Log.d("AdminMainActivity", "STARTING StudentViewerActivity");
             Log.d("AdminMainActivity", "Username: " + adminUser.getUsername() + "\nFirst: " + adminUser.getFirstName());
-            Intent intent = new Intent(AdminMainActivity.this, StudentViewerActivity.class);
+            Intent intent = StudentViewerActivity.intentFactory(getApplicationContext(), userId);
             // TODO: fix error connected to StudentViewerActivity
-            intent.putExtra(USER_ID_KEY, userId);
+//            intent.putExtra(USER_ID_KEY, userId);
             startActivity(intent);
         });
 
@@ -95,7 +95,7 @@ public class AdminMainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.item1:
                 Toast.makeText(this, "Edit Profile Selected", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(AdminMainActivity.this, EditProfileActivity.class);
+                Intent intent = EditProfileActivity.intentFactory(getApplicationContext(), userId);
                 intent.putExtra(USER_ID_KEY, userId);
                 startActivity(intent);
                 return true;

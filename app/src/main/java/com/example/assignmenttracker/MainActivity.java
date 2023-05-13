@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     private String getTodaysDate() {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
@@ -188,20 +187,6 @@ public class MainActivity extends AppCompatActivity {
         assignmentTrackerDAO.insert(tracker);
         Toast.makeText(this, "Successfully added " + tracker.getAssignment() + " to your To Do List", Toast.LENGTH_SHORT).show();
     }
-
-//    private void refreshDisplay() {
-//        Log.d("MainActivity", "refreshDisplay CALLED SUCCESSFULLY");
-//        assignmentTrackerList = assignmentTrackerDAO.getTrackersByUserId(userId);
-//        if (!assignmentTrackerList.isEmpty()) {
-//            StringBuilder sb = new StringBuilder();
-//            for (AssignmentTracker tracker : assignmentTrackerList) {
-//                sb.append(tracker.toString());
-//            }
-//            mainDisplay.setText(sb.toString());
-//        } else {
-//            mainDisplay.setText(R.string.nothing_in_tracker_message);
-//        }
-//    }
 
     private void checkForUser() {
         Log.d("MainActivity", "checkForUser CALLED SUCCESSFULLY");
