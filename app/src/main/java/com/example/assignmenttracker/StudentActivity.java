@@ -45,6 +45,16 @@ public class StudentActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new StudentAdapter(this, studentItems);
         recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(position -> changeStatus(position));
+    }
+
+    private void changeStatus(int position) {
+        String status = studentItems.get(position).getStatus();
+        if(status.equals("P")) status = "A";
+        else status = "P";
+
+        studentItems.get(position).setStatus(status);
+        adapter.notifyItemChanged(position);
     }
 
     private void setToolbar() {
@@ -74,6 +84,7 @@ public class StudentActivity extends AppCompatActivity {
     private void showAddStudentDialog() {
         MyDialog dialog = new MyDialog();
         dialog.show(getSupportFragmentManager(), MyDialog.STUDENT_ADD_DIALOG);
+        dialog.setListener((roll, name) -> addStudent(roll, name));
     }
 
     private void addStudent(String roll, String name){

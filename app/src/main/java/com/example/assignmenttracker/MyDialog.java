@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-
 public class MyDialog extends DialogFragment {
 
     public static final String CLASS_ADD_DIALOG = "addClass";
@@ -60,6 +59,8 @@ public class MyDialog extends DialogFragment {
             String roll = roll_edit.getText().toString();
             String name = name_edit.getText().toString();
             roll_edit.setText(String.valueOf(Integer.parseInt(roll)+1));
+
+            name_edit.setText("");
 
             listener.onClick(roll, name);
         });
